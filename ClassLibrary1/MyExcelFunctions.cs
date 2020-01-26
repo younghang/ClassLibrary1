@@ -57,13 +57,12 @@ namespace YHExcelAddin
        
         }
 
-        [ExcelCommand(MenuName = "RemoveXllMacro", MenuText = "移除选中加载项")]
-        public static void RemoveXllMacro()
+        
+        public static void RemoveXllMacro(string file)
         {
             Excel.Application app = ExcelDnaUtil.Application as Excel.Application;             
-            string file="";
-            file = app.Selection.Text;
-            MessageBox.Show(file);
+            //string file="";
+            //file = app.Selection.Text;
             try
             {
                 dynamic vXlAutoRemoveHandle;

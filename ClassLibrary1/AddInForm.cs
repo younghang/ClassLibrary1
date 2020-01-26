@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using ExcelDna.Integration;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
+using System.IO;
+
 namespace YHExcelAddin
 {
     public  partial class AddInForm : Form
@@ -26,7 +28,32 @@ namespace YHExcelAddin
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            if(TAG== "xll")
+            {
+                string s = listBox1.SelectedItem.ToString();
+                Console.WriteLine(s);
+                MyExcelFunctions.RemoveXllMacro(s);
+            }else if(TAG=="com1"||TAG=="com2")
+            {
+                string s = listBox1.SelectedItem.ToString();
+                Excel.Application app = ExcelDnaUtil.Application as Excel.Application;
+                dynamic list;
+                if(TAG=="com1")
+                {
+                    list = app.AddIns;
+                }else
+                {
+                    list = app.AddIns2;
+                }
+                foreach (dynamic j in list)
+                {
+                    if (j.FullName==s)
+                    {
+                        File.Delete(j.FullName);
+                    }
+                }
+            }
+            LoadList();
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)

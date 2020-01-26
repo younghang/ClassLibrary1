@@ -53,12 +53,13 @@ namespace YHExcelAddin
         public static AddInForm addinForm;
         public static void ShowAddInForm(string tag)
         {
-            if (addinForm==null)
+            if (addinForm==null || addinForm.IsDisposed)
             {
                 addinForm = new AddInForm();
             } 
             addinForm.SetTag(tag);
             addinForm.Show();
+            addinForm.Focus();
         }
         public void button_Click(IRibbonControl control)
         { 
