@@ -1,0 +1,37 @@
+<customUI xmlns='http://schemas.microsoft.com/office/2009/07/customui' loadImage='LoadImage' onLoad='ribbonLoad' >
+  <!-- 在 [XML]中被定义为 空白(whitespace)字符：空格 (&#x0020;) Tab (&#x0009;) 回车 (&#x000D;) 换行 (&#x000A;)-->
+  <ribbon startFromScratch="false">
+    <tabs>
+      <tab id='CustomTab' label='Assist Tab' >
+
+
+        <group id='MyGroup' label='MenuAndButton'>
+
+          <!-- 使用RunTagMacro，可以调用vba中的函数,也可以调用XLL中的ExcelCommand -->
+          <button id='TestRunTag' label='到A列最后' image='down.png' size='normal' onAction='RunTagMacro' tag='GoToABottomMacro' />
+          <button id='gotoa1' label='返回A1'  size='normal' image='up.png' onAction='RunTagMacro' tag='GotoA1' />
+          <separator id="separator2" />
+          <button id='GetMaxLineButton' image='line.png' getLabel='Button_getLabel' size='large' onAction='button_Click' screentip="获取当前工作表最大行数" supertip="可能会多一点"/>
+        </group >
+        <group id='SampleGroup' label='CTP Control'>
+          <button id='ShowCTP' label='打开面板' image='panel2.png'  size='large' onAction='OnShowCTP' />
+          <button id='DeleteCTP' label='关闭面板' image='close_panel.png'   size='large' onAction='OnDeleteCTP' />
+        </group >
+        <group id='AddInGroup' label='Configure'>
+          <menu id="RootMenu" label="配置插件" image="addin.png" size="large">
+            <button id="btn_xll" label="XLL"   onAction='button_Click'  />
+            <menuSeparator id="MySeparator" />
+            <button id="btn_com1" label="COM1"   onAction='button_Click'  />
+            <menuSeparator id="MySeparator2" />
+            <button id="btn_com2" label="COM2"   onAction='button_Click'  />
+          </menu> 
+          <!-- 使用RunTagMacro，可以调用vba中的函数,也可以调用XLL中的ExcelCommand -->
+        </group >
+
+        <group id='About' label='About'>
+          <button id='ShowAbout' label='关于' image='yanzi.png' size='large' onAction='OnShowInfo' />
+        </group >
+      </tab>
+    </tabs>
+  </ribbon>
+</customUI>
