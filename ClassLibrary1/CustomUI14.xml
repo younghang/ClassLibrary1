@@ -10,6 +10,7 @@
           <!-- 使用RunTagMacro，可以调用vba中的函数,也可以调用XLL中的ExcelCommand -->
           <button id='TestRunTag' label='到A列最后' image='down.png' size='normal' onAction='RunTagMacro' tag='GoToABottomMacro' />
           <button id='gotoa1' label='返回A1'  size='normal' image='up.png' onAction='RunTagMacro' tag='GotoA1' />
+           <button id='dyecolor' label='标记颜色'  size='normal' image='color.png' onAction='button_Click' />
           <separator id="separator2" />
           <button id='GetMaxLineButton' image='line.png' getLabel='Button_getLabel' size='large' onAction='button_Click' screentip="获取当前工作表最大行数" supertip="可能会多一点"/>
         </group >

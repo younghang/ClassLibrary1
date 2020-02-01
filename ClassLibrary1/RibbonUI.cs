@@ -51,6 +51,7 @@ namespace YHExcelAddin
             return text;
         }
         public static AddInForm addinForm;
+        public static DyeCellForm dyeFrom;
         public static void ShowAddInForm(string tag)
         {
             if (addinForm==null || addinForm.IsDisposed)
@@ -77,6 +78,14 @@ namespace YHExcelAddin
                 case "btn_com2":
                     ShowAddInForm("com2");
                     break;
+                case "dyecolor":                  
+                    if (dyeFrom == null || dyeFrom.IsDisposed)
+                    {
+                        dyeFrom = new DyeCellForm();
+                    }
+                    dyeFrom.Show();
+                    dyeFrom.Focus();
+                    break;
                 default:
                     MessageBox.Show("Hello:" + control.Id);
                     break;
@@ -99,8 +108,7 @@ namespace YHExcelAddin
             {
                 //RibbonGallery gallery = this.Factory.CreateRibbonGallery();
 
-                name += workbook.Name + " * ";  
-             
+                name += workbook.Name + " * ";              
                 n++;
             }
 
