@@ -19,45 +19,54 @@ namespace YHExcelAddin
         {
             InitializeComponent();
         }
-
-        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
+ 
+        internal void SetSelectedRange(Range range)
         {
-
-        }
-
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            Excel.Application app = ExcelDnaUtil.Application as Excel.Application;
-            Range range = app.Selection;
-            if(range.Areas.Count==1)
+            if (range == null)
+                return;            
+            if(range.Count==1)
             {
-                if(range.Columns.Count==2)
+                return;
+            }
+            rangeSelected = range;            
+            if (range.Areas.Count == 1)
+            {
+                if (range.Columns.Count == 2)
                 {
                     //这个杂碎从1开始，且不说这个，调试竟然显示不存在,什么几把玩意儿
                     txt_1_range.Text = range.Columns[1].Address;
                     txt_2_range.Text = range.Columns[2].Address;
-                }else
+                }
+                else
                 {
                     txt_1_range.Text = range.Address;
                 }
-               
-            }else if(range.Areas.Count==2)
+
+            }
+            else if (range.Areas.Count == 2)
             {
                 int i = 0;
-                foreach(Range c in range.Areas)
+                foreach (Range c in range.Areas)
                 {
-                    if(i==0)
+                    if (i == 0)
                     {
                         txt_1_range.Text = c.Address;
                         i++;
-                    }else
+                    }
+                    else
                     {
                         txt_2_range.Text = c.Address;
                     }
-                    
+
                 }
             }
+        }
+        private Range rangeSelected;
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Excel.Application app = ExcelDnaUtil.Application as Excel.Application;
+            Range range = app.Selection;
+            SetSelectedRange(range);
         }
         private void btn_OK_Click(object sender, EventArgs e)
         {
@@ -69,37 +78,63 @@ namespace YHExcelAddin
                 MessageBox.Show("数据区域均需为单列");
                 return;
             }
+            lastOne = false;
             string seperateStr = this.textBox1.Text.Trim(new char[] { ' ', '\n' });
             seperator = seperateStr.ToCharArray();
             int length = Math.Min(range1.Count, range2.Count);
+            //这个会触发Excel SelectChange事件
+            int line = app.ActiveSheet.Cells.SpecialCells(XlCellType.xlCellTypeLastCell).Row;
+            length = Math.Min(line, length);
+            IsSameColor1 = this.lbl_1_diff.BackColor == this.lbl_1_same.BackColor;
+            IsSameColor2 = this.lbl_2_diff.BackColor == this.lbl_2_same.BackColor;
             for (int i=0;i<length;i++)
+            {   
+                if(i==length-1)
+                {
+                    lastOne = true;
+                }
+                this.richTextBox1.Text="当前行"+(i+1)+" , 总共："+length;
+                SetRangeColor(range1.Cells[i + 1], range2.Cells[i + 1]);                
+            }
+            if (rangeSelected != null)
             {
-                SetRangeColor(range1.Cells[i + 1], range2.Cells[i + 1]);
+                rangeSelected.Select();
             }
 
 
-        }
+        } 
+        private bool IsSameColor1 = true;
+        private bool IsSameColor2 = true;
         private char[] seperator;
         private void SetRangeColor(Range a,Range b)
         {
+            if(a.FormulaR1C1Local==""||b.FormulaR1C1Local=="")
+            {
+                return;
+            }
             a.Font.Color = lbl_1_same.BackColor;
             b.Font.Color = lbl_2_same.BackColor;
-            if(this.lbl_1_diff.BackColor!=this.lbl_1_same.BackColor)
+            if(!IsSameColor1)
             {
                 SetCellColor(a, b.FormulaR1C1Local + "",this.lbl_1_diff.BackColor);
             }
            
-            if (this.lbl_2_diff.BackColor != this.lbl_2_same.BackColor)
+            if (!IsSameColor2)
             {
                 SetCellColor(b, a.FormulaR1C1Local + "",this.lbl_2_diff.BackColor);
             } 
         }
+        private bool lastOne=false;
         private void SetCellColor(Range a,string s,Color color)
         {
             //string str1 = "p9605, p98,P60,P30   \n";
             //string str2 = "p9505,P98, P61,P33 ,P30 \n";
             string str1 = s;
             string str2 = a.FormulaR1C1Local;
+            if(str2=="")
+            {
+                return;
+            }
             string str1Temp = str1.ToUpper();
             string str2Temp = str2.ToUpper();
             string[] str1Sub = str1Temp.Split(seperator);
@@ -118,12 +153,15 @@ namespace YHExcelAddin
                 if (indexCollect[i] != -1)
                 {
                     a.Characters[indexCollect[i]+1, str1Sub[i].Length].Font.Color = color;
-                    this.richTextBox1.Select(indexCollect[i], str1Sub[i].Length);
-                    richTextBox1.SelectionColor = Color.Red;
-                    richTextBox1.SelectionBackColor = Color.White;
-                    richTextBox1.HideSelection = false;
+                    if (lastOne)
+                    {
+                        this.richTextBox1.Select(indexCollect[i], str1Sub[i].Length);
+                        richTextBox1.SelectionColor = Color.Red;
+                        richTextBox1.SelectionBackColor = Color.White;
+                        richTextBox1.HideSelection = false;
+                    }
                 }
-
+                
             }
         }
         private void lbl_Close_MouseHover(object sender, EventArgs e)
@@ -172,10 +210,6 @@ namespace YHExcelAddin
                 message.Result = (IntPtr)HTCAPTION;
             }
         }
-
-
-
-       
 
 
         private void lbl_1_same_Click(object sender, EventArgs e)

@@ -60,9 +60,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(16, 211);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(119, 12);
+            this.label1.Size = new System.Drawing.Size(203, 12);
             this.label1.TabIndex = 2;
-            this.label1.Text = "删除后重启Excel生效";
+            this.label1.Text = "删除后点击Excel加载项确定移除生效";
             // 
             // AddInForm
             // 

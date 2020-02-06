@@ -66,15 +66,38 @@ namespace WindowsFormsApp1
         // Implement the drag of the form
         protected override void WndProc(ref Message message)
         {
+             switch ((int)message.WParam)
+            {
+
+             //禁止双击标题栏关闭窗体
+            case 0xF063:
+            case 0xF093:
+
+                    message.WParam = IntPtr.Zero;
+            break;
+                //禁止双击标题栏
+                case 0xf122:
+                    message.WParam = IntPtr.Zero;
+                    break;
+                //禁止关闭按钮
+                case 0xF060:
+                    message.WParam = IntPtr.Zero;
+                    break;
+                //禁止最大化按钮
+                case 0xf020:
+                    message.WParam = IntPtr.Zero;
+                    break;
+            }
             base.WndProc(ref message);
 
             if (message.Msg == WM_NCHITTEST && (int)message.Result == HTCLIENT)
             {
                 message.Result = (IntPtr)HTCAPTION;
             }
+           
         }
 
- 
+
 
         private void btn_OK_Click(object sender, EventArgs e)
         {
@@ -134,6 +157,12 @@ namespace WindowsFormsApp1
         {
             this.colorDialog1.ShowDialog();
             this.lbl_2_diff.BackColor = this.colorDialog1.Color;
+        }
+
+        private void Form1_DoubleClick(object sender, EventArgs e)
+        {
+            
+            return;
         }
     }
 }

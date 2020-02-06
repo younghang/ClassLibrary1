@@ -63,6 +63,10 @@ namespace YHExcelAddin
             {
                 return;
             }
+            if (RibbonUI.dyeFrom != null&&!RibbonUI.dyeFrom.IsDisposed)
+            {
+                RibbonUI.dyeFrom.SetSelectedRange(Target);                  
+            }
 
         }
 
