@@ -44,6 +44,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.lbl_1_diff = new System.Windows.Forms.Label();
+            this.txt_1_range = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -55,7 +56,6 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.txt_1_range = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -72,6 +72,7 @@
             // 
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
+            this.label1.DoubleClick += new System.EventHandler(this.label1_DoubleClick);
             // 
             // lbl_Close
             // 
@@ -127,6 +128,7 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.lbl_1_diff);
+            this.groupBox1.Controls.Add(this.txt_1_range);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.lbl_1_same);
             resources.ApplyResources(this.groupBox1, "groupBox1");
@@ -142,6 +144,7 @@
             // 
             resources.ApplyResources(this.label9, "label9");
             this.label9.Name = "label9";
+            this.label9.DoubleClick += new System.EventHandler(this.label1_DoubleClick);
             // 
             // lbl_1_diff
             // 
@@ -149,6 +152,12 @@
             resources.ApplyResources(this.lbl_1_diff, "lbl_1_diff");
             this.lbl_1_diff.Name = "lbl_1_diff";
             this.lbl_1_diff.Click += new System.EventHandler(this.lbl_1_diff_Click);
+            // 
+            // txt_1_range
+            // 
+            this.txt_1_range.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            resources.ApplyResources(this.txt_1_range, "txt_1_range");
+            this.txt_1_range.Name = "txt_1_range";
             // 
             // groupBox2
             // 
@@ -171,6 +180,7 @@
             // 
             resources.ApplyResources(this.label10, "label10");
             this.label10.Name = "label10";
+            this.label10.DoubleClick += new System.EventHandler(this.label12_DoubleClick);
             // 
             // txt_2_range
             // 
@@ -189,6 +199,7 @@
             // 
             resources.ApplyResources(this.label12, "label12");
             this.label12.Name = "label12";
+            this.label12.DoubleClick += new System.EventHandler(this.label12_DoubleClick);
             // 
             // lbl_2_same
             // 
@@ -201,6 +212,7 @@
             // 
             resources.ApplyResources(this.label14, "label14");
             this.label14.Name = "label14";
+            this.label14.DoubleClick += new System.EventHandler(this.label14_DoubleClick);
             // 
             // textBox1
             // 
@@ -222,19 +234,12 @@
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
             // 
-            // txt_1_range
-            // 
-            this.txt_1_range.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            resources.ApplyResources(this.txt_1_range, "txt_1_range");
-            this.txt_1_range.Name = "txt_1_range";
-            // 
             // DyeCellForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.richTextBox1);
-            this.Controls.Add(this.txt_1_range);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.groupBox2);

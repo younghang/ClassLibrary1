@@ -18,8 +18,18 @@ namespace YHExcelAddin
         public DyeCellForm()
         {
             InitializeComponent();
+            this.progressBar2 = new CustomProgressBar();
+            this.progressBar2.Location = new System.Drawing.Point(24, 83);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.Size = new System.Drawing.Size(424, 10);
+            this.progressBar2.BackColor = System.Drawing.SystemColors.Window;
+            this.progressBar2.ForeColor = System.Drawing.Color.LimeGreen;
+            this.progressBar2.TabIndex = 70;
+            this.progressBar2.Value = 0;
+            this.Controls.Add(progressBar2);
         }
- 
+        private CustomProgressBar progressBar2;
+
         internal void SetSelectedRange(Range range)
         {
             if (range == null)
@@ -70,6 +80,7 @@ namespace YHExcelAddin
         }
         private void btn_OK_Click(object sender, EventArgs e)
         {
+            this.progressBar2.Value = 0;
             Excel.Application app = ExcelDnaUtil.Application as Excel.Application;
             Range range1=app.Range[this.txt_1_range.Text.Replace('：',':').Trim(new char[] { ' ', '\n' })];
             Range range2 = app.Range[this.txt_2_range.Text.Replace('：', ':').Trim(new char[] { ' ', '\n' })];
@@ -91,9 +102,15 @@ namespace YHExcelAddin
             {   
                 if(i==length-1)
                 {
-                    lastOne = true;
+                    lastOne = true;                    
                 }
-                this.richTextBox1.Text="当前行"+(i+1)+" , 总共："+length;
+                int c = (i + 1) / length * 100;
+                if((c-this.progressBar2.Value)>10)
+                {
+                    Console.WriteLine(c);
+                    this.progressBar2.Value = c;
+                    this.progressBar2.Invalidate();
+                }                
                 SetRangeColor(range1.Cells[i + 1], range2.Cells[i + 1]);                
             }
             if (rangeSelected != null)
@@ -138,29 +155,52 @@ namespace YHExcelAddin
             string str1Temp = str1.ToUpper();
             string str2Temp = str2.ToUpper();
             string[] str1Sub = str1Temp.Split(seperator);
+            List<string> strItems = new List<string>();
             for (int i = 0; i < str1Sub.Length; i++)
             {
                 str1Sub[i] = str1Sub[i].Trim(new char[] { ' ', '\n' });
-            }
-            int[] indexCollect = new int[str1Sub.Length];
-            for (int i = 0; i < str1Sub.Length; i++)
-            {
-                indexCollect[i] = str2Temp.IndexOf(str1Sub[i]);
-            }
-            this.richTextBox1.Text = str2;
-            for (int i = 0; i < str1Sub.Length; i++)
-            {
-                if (indexCollect[i] != -1)
+                if (string.IsNullOrEmpty(str1Sub[i]))
+                    continue;
+                if(!strItems.Contains(str1Sub[i]))
                 {
-                    a.Characters[indexCollect[i]+1, str1Sub[i].Length].Font.Color = color;
+                    strItems.Add(str1Sub[i]);
+                }
+            }  
+            List<int> indexCollect = new List<int>();
+            for (int i = 0; i < strItems.Count; i++)
+            {
+                int temp = str2Temp.IndexOf(strItems[i]);
+                while(temp!=-1)
+                {
+                    indexCollect.Add(temp);
+                    if(temp+1<str2Temp.Length)
+                    {
+                        temp= str2Temp.IndexOf(strItems[i],temp+1);
+                    }else
+                    {
+                        break;
+                    }
+                    
+                }
+                indexCollect.Add(-2);
+            } 
+            if(lastOne) this.richTextBox1.Text = str2;
+            int j = 0;
+            for (int i = 0; i < indexCollect.Count; i++)
+            {
+                if (indexCollect[i] != -1&&indexCollect[i]!=-2)
+                {
+                    a.Characters[indexCollect[i]+1, strItems[j].Length].Font.Color = color;
                     if (lastOne)
                     {
-                        this.richTextBox1.Select(indexCollect[i], str1Sub[i].Length);
+                        this.richTextBox1.Select(indexCollect[i], strItems[j].Length);
                         richTextBox1.SelectionColor = Color.Red;
                         richTextBox1.SelectionBackColor = Color.White;
                         richTextBox1.HideSelection = false;
                     }
                 }
+                if (indexCollect[i] == -2)
+                    j++;
                 
             }
         }
@@ -234,6 +274,50 @@ namespace YHExcelAddin
         {
             this.colorDialog1.ShowDialog();
             this.lbl_2_diff.BackColor = this.colorDialog1.Color;
+        }
+
+        private void label14_DoubleClick(object sender, EventArgs e)
+        {
+            Color temp = this.lbl_1_diff.BackColor;
+            this.lbl_1_diff.BackColor = this.lbl_2_diff.BackColor;
+            this.lbl_2_diff.BackColor = temp;
+        }
+
+        private void label1_DoubleClick(object sender, EventArgs e)
+        {
+            Color temp = this.lbl_1_diff.BackColor;
+            this.lbl_1_diff.BackColor = this.lbl_1_same.BackColor;
+            this.lbl_1_same.BackColor = temp;
+        }
+
+        private void label12_DoubleClick(object sender, EventArgs e)
+        {
+            Color temp = this.lbl_2_diff.BackColor;
+            this.lbl_2_diff.BackColor = this.lbl_2_same.BackColor;
+            this.lbl_2_same.BackColor = temp;
+        }
+    }
+    public class CustomProgressBar : ProgressBar
+    {
+        public CustomProgressBar()
+        {
+            this.SetStyle(ControlStyles.UserPaint, true);
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+        }
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            SolidBrush brush = null;
+            System.Drawing.Rectangle rec = new System.Drawing.Rectangle(0, 0, this.Width, this.Height);
+            if (ProgressBarRenderer.IsSupported)
+            {
+                ProgressBarRenderer.DrawHorizontalBar(e.Graphics, rec);
+            }
+            Pen pen = new Pen(this.ForeColor, 1);
+            e.Graphics.DrawRectangle(pen, rec);
+            e.Graphics.FillRectangle(new SolidBrush(this.BackColor), 0, 0, rec.Width, rec.Height);
+            rec.Width = (int)(rec.Width * ((double)Value / Maximum));
+            brush = new SolidBrush(this.ForeColor);
+            e.Graphics.FillRectangle(brush, 0, 0, rec.Width, rec.Height);
         }
     }
 }

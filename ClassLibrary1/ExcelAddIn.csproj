@@ -150,6 +150,7 @@
   <ItemGroup>
     <None Include="ExcelAddIn-AddIn.dna" />
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\DyeCellForm.datasource" />
     <None Include="Properties\ExcelDna.Build.props" />
   </ItemGroup>
   <ItemGroup>

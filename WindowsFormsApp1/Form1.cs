@@ -12,9 +12,20 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
+        private CustomProgressBar progressBar2;
         public Form1()
         {
+
             InitializeComponent();
+            this.progressBar2 = new CustomProgressBar();
+            this.progressBar2.Location = new System.Drawing.Point(25, 308);
+            this.progressBar2.Name = "progressBar2";
+            this.progressBar2.Size = new System.Drawing.Size(328, 10);
+            this.progressBar2.BackColor = System.Drawing.SystemColors.Window;
+            this.progressBar2.ForeColor = System.Drawing.Color.LimeGreen;
+            this.progressBar2.TabIndex = 70;
+            this.progressBar2.Value = 90;
+            this.Controls.Add(progressBar2);
         }
 
         private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
@@ -66,28 +77,7 @@ namespace WindowsFormsApp1
         // Implement the drag of the form
         protected override void WndProc(ref Message message)
         {
-             switch ((int)message.WParam)
-            {
-
-             //禁止双击标题栏关闭窗体
-            case 0xF063:
-            case 0xF093:
-
-                    message.WParam = IntPtr.Zero;
-            break;
-                //禁止双击标题栏
-                case 0xf122:
-                    message.WParam = IntPtr.Zero;
-                    break;
-                //禁止关闭按钮
-                case 0xF060:
-                    message.WParam = IntPtr.Zero;
-                    break;
-                //禁止最大化按钮
-                case 0xf020:
-                    message.WParam = IntPtr.Zero;
-                    break;
-            }
+ 
             base.WndProc(ref message);
 
             if (message.Msg == WM_NCHITTEST && (int)message.Result == HTCLIENT)
@@ -163,6 +153,30 @@ namespace WindowsFormsApp1
         {
             
             return;
+        }
+    }
+    public class CustomProgressBar : ProgressBar
+    {
+        public CustomProgressBar()
+        {
+            this.SetStyle(ControlStyles.UserPaint, true);
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+        }
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            SolidBrush brush = null;
+            System.Drawing.Rectangle rec = new System.Drawing.Rectangle(0, 0, this.Width, this.Height);
+
+            if (ProgressBarRenderer.IsSupported)
+            {
+                ProgressBarRenderer.DrawHorizontalBar(e.Graphics, rec);
+            }
+            Pen pen = new Pen(this.ForeColor, 1);
+            e.Graphics.DrawRectangle(pen, rec);
+            e.Graphics.FillRectangle(new SolidBrush(this.BackColor), 0, 0, rec.Width, rec.Height);
+            rec.Width = (int)(rec.Width * ((double)Value / Maximum)) ;
+            brush = new SolidBrush(this.ForeColor);
+            e.Graphics.FillRectangle(brush, 0, 0, rec.Width, rec.Height);
         }
     }
 }
