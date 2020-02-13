@@ -9,7 +9,8 @@ using System.Windows.Forms;
 using ExcelDna.Integration;
 using Excel=Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
- 
+using ExcelDna.Integration.CustomUI;
+
 namespace YHExcelAddin
 {
     [ComVisible(true)]
@@ -33,8 +34,15 @@ namespace YHExcelAddin
                 Item.ImageIndex = 0;
                 Item.Text = names[i];
                 listView1.Items.Add(Item);
+                 
             }
             listView1.EndUpdate();
+        }
+        internal void UpdateMessage(Dictionary<string, CustomTaskPane>.KeyCollection hwnds)
+        {
+            this.richTextBox1.Clear();
+            foreach (string s in hwnds)
+                this.richTextBox1.AppendText(s+'\n');
         }
         private void InitialListView()
         {
@@ -62,6 +70,7 @@ namespace YHExcelAddin
         { 
             InitialListView();
         }
+ 
 
         private void listView1_ItemActivate(object sender, EventArgs e)
         {
@@ -79,6 +88,8 @@ namespace YHExcelAddin
                     dynamic app = ExcelDnaUtil.Application;
                     Excel.Workbook workbook = app.Workbooks[name];
                     workbook.Activate();
+                    app.ActiveWindow.WindowState = Excel.XlWindowState.xlMaximized;
+
 
                 }
                 catch (Exception)
@@ -86,6 +97,11 @@ namespace YHExcelAddin
                     MessageBox.Show("error");
                 }
             }
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

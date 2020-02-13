@@ -8,6 +8,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
 using Microsoft.Office.Core;
 using ExcelDna.Registration;
+using Microsoft.Office.Interop.Excel;
 
 namespace YHExcelAddin
 {
@@ -29,13 +30,34 @@ namespace YHExcelAddin
             ExcelApp = ExcelDnaUtil.Application as Excel.Application;
             //ExcelApp.SheetActivate += ExcelApp_SheetActivate;
             ExcelApp.SheetSelectionChange += ExcelApp_SheetSelectionChange;
-
+            ExcelApp.WindowActivate += ExcelApp_WindowActivate;
             ExcelRegistration.GetExcelFunctions()//在此处显示注册函数
                 .Where(func => func.FunctionAttribute.Name.StartsWith("Params"))
                 .ProcessParamsRegistrations()
                 .RegisterFunctions();
             //ComAddInConnection com_addin = new ComAddInConnection();
             //ExcelComAddInHelper.LoadComAddIn(com_addin);
+        }
+
+        private void ExcelApp_WindowActivate(Workbook Wb, Window Wn)
+        {   
+          
+            Excel.Application app = ExcelDnaUtil.Application as Excel.Application;
+            try
+            {
+                List<string> names = new List<string>();
+                foreach (Excel.Workbook workbook in app.Workbooks)
+                {
+                    names.Add(workbook.Name);
+                }
+                CTPManager.Instance.UpdateCTP(names);
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+                return;
+            }
         }
 
         /// <summary>
@@ -59,8 +81,9 @@ namespace YHExcelAddin
                 CTPManager.Instance.UpdateCTP(names);
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                MessageBox.Show(e.Message);
                 return;
             }
             if (RibbonUI.dyeFrom != null&&!RibbonUI.dyeFrom.IsDisposed)
@@ -85,8 +108,9 @@ namespace YHExcelAddin
                 CTPManager.Instance.UpdateCTP(names);
     
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                MessageBox.Show(e.Message);
                 return;
             }
 

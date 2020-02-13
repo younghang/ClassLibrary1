@@ -14,7 +14,9 @@ namespace YHExcelAddin
         public AboutForm()
         {
             InitializeComponent();
-            label1.Text = "此Addin添加了一个函数MatchDataSheet。可以匹配数据，但是得放到上一列。另外还有两个功能是查看当前工作表的列数。还有切换工作簿的窗口，还有插件卸载。";
+            label1.Text = "此Addin添加了一个函数MatchDataSheet。可以匹配数据，但是得放到上一列,还可以标记颜色。" +
+                "另外还有两个功能是查看当前工作表的列数。" +
+                "还有切换工作簿的窗口，还有插件删除。";
         }
 
         private void label1_Click(object sender, EventArgs e)

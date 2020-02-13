@@ -17,18 +17,12 @@ namespace YHExcelAddin
     {
         public DyeCellForm()
         {
-            InitializeComponent();
-            this.progressBar2 = new CustomProgressBar();
-            this.progressBar2.Location = new System.Drawing.Point(24, 83);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(424, 10);
-            this.progressBar2.BackColor = System.Drawing.SystemColors.Window;
-            this.progressBar2.ForeColor = System.Drawing.Color.LimeGreen;
-            this.progressBar2.TabIndex = 70;
-            this.progressBar2.Value = 0;
-            this.Controls.Add(progressBar2);
+            InitializeComponent(); 
+            this.customProgressBar1.BackColor = System.Drawing.SystemColors.Window;
+            this.customProgressBar1.ForeColor = System.Drawing.Color.LimeGreen;
+            this.customProgressBar1.TabIndex = 70; 
         }
-        private CustomProgressBar progressBar2;
+ 
 
         internal void SetSelectedRange(Range range)
         {
@@ -80,7 +74,7 @@ namespace YHExcelAddin
         }
         private void btn_OK_Click(object sender, EventArgs e)
         {
-            this.progressBar2.Value = 0;
+            this.customProgressBar1.Value = 0;
             Excel.Application app = ExcelDnaUtil.Application as Excel.Application;
             Range range1=app.Range[this.txt_1_range.Text.Replace('：',':').Trim(new char[] { ' ', '\n' })];
             Range range2 = app.Range[this.txt_2_range.Text.Replace('：', ':').Trim(new char[] { ' ', '\n' })];
@@ -105,11 +99,11 @@ namespace YHExcelAddin
                     lastOne = true;                    
                 }
                 int c = (i + 1) / length * 100;
-                if((c-this.progressBar2.Value)>10)
+                if((c-this.customProgressBar1.Value)>10)
                 {
                     Console.WriteLine(c);
-                    this.progressBar2.Value = c;
-                    this.progressBar2.Invalidate();
+                    this.customProgressBar1.Value = c;
+                    this.customProgressBar1.Invalidate();
                 }                
                 SetRangeColor(range1.Cells[i + 1], range2.Cells[i + 1]);                
             }
@@ -225,7 +219,7 @@ namespace YHExcelAddin
         }
         //定义无边框窗体Form
         [DllImport("user32.dll")]//*********************拖动无窗体的控件
-        public static extern bool ReleaseCapture();
+        private static extern bool ReleaseCapture();
         [DllImport("user32.dll")]
         public static extern bool SendMessage(IntPtr hwnd, int wMsg, int wParam, int lParam);
         public const int WM_SYSCOMMAND = 0x0112;

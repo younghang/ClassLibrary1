@@ -56,6 +56,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.customProgressBar1 = new YHExcelAddin.CustomProgressBar();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -234,10 +235,16 @@
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
             // 
+            // customProgressBar1
+            // 
+            resources.ApplyResources(this.customProgressBar1, "customProgressBar1");
+            this.customProgressBar1.Name = "customProgressBar1";
+            // 
             // DyeCellForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.customProgressBar1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.textBox1);
@@ -294,5 +301,6 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txt_2_range;
         private System.Windows.Forms.TextBox txt_1_range;
+        private CustomProgressBar customProgressBar1;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using ExcelDna.Integration.CustomUI;
 
@@ -42,31 +43,42 @@ namespace YHExcelAddin
         }
         public void UpdateCTP(List<string> names)
         {
-            foreach (var i in DicCustomCTP.Keys)
+            foreach (var i in DicCustomCTP.ToList())
             {
-                CustomTaskPane ctp = DicCustomCTP[i];
-                CTPControl uc = (CTPControl)ctp.ContentControl;
-                uc.UpdateListView(names);
+                CustomTaskPane ctp = DicCustomCTP[i.Key];
+                CTPControl uc = null;
+                try
+                {
+                    uc = (CTPControl)ctp.ContentControl; 
+                    uc.UpdateListView(names);
+                    uc.UpdateMessage(DicCustomCTP.Keys);
+                }catch(Exception)
+                {
+                    DicCustomCTP.Remove(i.Key);
+                } 
+               
             }     
             
         }
         public void DeleteCTP(string hwnd)
         {
-            if(DicCustomCTP.ContainsKey(hwnd))
+            if (DicCustomCTP.ContainsKey(hwnd))
             {
                 CustomTaskPane ctp = DicCustomCTP[hwnd];
-                ctp.DockPositionStateChange -= ctp_DockPositionStateChange;
-                ctp.VisibleStateChange -= ctp_VisibleStateChange;
-                ctp.Delete();
-                ctp = null;
-                DicCustomCTP.Remove(hwnd);
+                ctp.Visible = false;
+                //ctp.DockPositionStateChange -= ctp_DockPositionStateChange;
+                //ctp.VisibleStateChange -= ctp_VisibleStateChange;
+                //ctp.Delete();
+                //ctp = null;
+                //DicCustomCTP.Remove(hwnd);
             }
-            if (ctp != null)
-            {
-                // Could hide instead, by calling ctp.Visible = false;
-                ctp.Delete();
-                ctp = null;
-            }
+            //if (ctp != null)
+            //{
+            //    // Could hide instead, by calling ctp.Visible = false;
+            //    //ctp.Delete();
+            //    //ctp = null;
+                
+            //}
         }
 
         static void ctp_VisibleStateChange(CustomTaskPane CustomTaskPaneInst)
