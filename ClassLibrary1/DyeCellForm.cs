@@ -76,6 +76,11 @@ namespace YHExcelAddin
         {
             this.customProgressBar1.Value = 0;
             Excel.Application app = ExcelDnaUtil.Application as Excel.Application;
+            if(app.Workbooks.Count==0)
+            {
+                richTextBox1.Text = "还没打开表格呢";
+                return;
+            }
             Range range1=app.Range[this.txt_1_range.Text.Replace('：',':').Trim(new char[] { ' ', '\n' })];
             Range range2 = app.Range[this.txt_2_range.Text.Replace('：', ':').Trim(new char[] { ' ', '\n' })];
             if(range1.Columns.Count!=1||range2.Columns.Count!=1)

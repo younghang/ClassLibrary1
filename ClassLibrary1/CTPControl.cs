@@ -85,12 +85,17 @@ namespace YHExcelAddin
                 try
                 {
                     string name = listView1.SelectedItems[0].Text;
-                    dynamic app = ExcelDnaUtil.Application;
+                    Excel.Application app = ExcelDnaUtil.Application as Excel.Application;
                     Excel.Workbook workbook = app.Workbooks[name];
-                    workbook.Activate();
-                    app.ActiveWindow.WindowState = Excel.XlWindowState.xlMaximized;
-
-
+                    for (int i = 1; i < app.Windows.Count + 1; i++)
+                    {
+                        if (app.Windows[i].Caption == name)
+                        {
+                            app.Windows[i].Activate();
+                        }
+                    }
+                    //workbook.Activate();
+                    app.WindowState = Excel.XlWindowState.xlMaximized;
                 }
                 catch (Exception)
                 {

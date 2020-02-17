@@ -7,11 +7,18 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using YHExcelAddin.Calculator.UIController;
 
 namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
+        //[System.Runtime.InteropServices.DllImport("kernel32.dll", SetLastError = true)]
+        //[return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
+        //public static extern bool AllocConsole();
+
+        //[System.Runtime.InteropServices.DllImport("Kernel32")]
+        //public static extern void FreeConsole();
         private CustomProgressBar progressBar2;
         public Form1()
         {
@@ -154,6 +161,17 @@ namespace WindowsFormsApp1
             
             return;
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+           
+            Console.WriteLine("nihao");
+            //UIController con = new UIController();
+            //con.Run();
+            //AllocConsole();   //开启控制台
+            Console.WriteLine("nihaoa");
+        }
+       
     }
     public class CustomProgressBar : ProgressBar
     {

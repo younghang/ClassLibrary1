@@ -7,6 +7,10 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Interop.Excel;
+using System.Collections.Generic;
+using System.Drawing;
+using YHExcelAddin.Calculator.UIController;
+
 namespace YHExcelAddin
 {
     [ComVisible(true)]
@@ -51,7 +55,8 @@ namespace YHExcelAddin
             return text;
         }
         public static AddInForm addinForm;
-        public static DyeCellForm dyeFrom;
+        public static DyeCellForm dyeForm;
+        public static CalculatorForm clcForm;
         public static void ShowAddInForm(string tag)
         {
             if (addinForm==null || addinForm.IsDisposed)
@@ -79,18 +84,86 @@ namespace YHExcelAddin
                     ShowAddInForm("com2");
                     break;
                 case "dyecolor":                  
-                    if (dyeFrom == null || dyeFrom.IsDisposed)
+                    if (dyeForm == null || dyeForm.IsDisposed)
                     {
-                        dyeFrom = new DyeCellForm();
+                        dyeForm = new DyeCellForm();
                     }
-                    dyeFrom.Show();
-                    dyeFrom.Focus();
+                    dyeForm.Show();
+                    dyeForm.Focus();
+                    break;
+                case "markSame":
+                    MarkSame();break;
+                case "FillEmpty":
+                    FillEmpty(); break;
+                case "Calculator":
+                    if (clcForm == null || clcForm.IsDisposed)
+                    {
+                        clcForm = new CalculatorForm();
+                    }
+                    clcForm.Show();
+                    clcForm.Focus();
                     break;
                 default:
                     MessageBox.Show("Hello:" + control.Id);
                     break;
             }
            
+        }
+ 
+
+
+        public void MarkSame()
+        {
+            Excel.Application app = ExcelDnaUtil.Application as Excel.Application;
+            Range range = app.Selection;
+            int length = range.Count;
+            List<string> listCells = new List<string>();
+            if (range.Areas.Count > 1)
+            {
+                return;
+            }
+            for (int i = 0; i < length; i++)
+            { 
+                Range item= range.Cells[i + 1] ;
+                item.Interior.Pattern = XlPattern.xlPatternNone;
+                if (item.FormulaR1C1Local == "")
+                {
+                    continue;
+                }
+                if(listCells.Contains(item.FormulaR1C1Local))
+                {
+                    item.Interior.Color= Color.FromArgb(255, 192, 0);
+                }
+                else
+                {
+                    listCells.Add(item.FormulaR1C1Local);
+                } 
+            }
+        }
+        public void FillEmpty()
+        {
+            Excel.Application app = ExcelDnaUtil.Application as Excel.Application;
+            Range range = app.Selection;    
+            if (range.Areas.Count != 2)
+            {
+                return;
+            }
+            Range fillRange = range.Areas[2];
+            if(fillRange.Count!=1)
+            {
+                return;
+            }
+            string fillText = fillRange.FormulaR1C1Local;
+            Range regionRange = range.Areas[1];
+            int length = regionRange.Count;
+            for (int i = 0; i < length; i++)
+            {
+                Range item = range.Cells[i + 1];               
+                if (item.FormulaR1C1Local == "")
+                {
+                    item.Value2= fillText;
+                }              
+            }
         }
         public void ribbonLoad(IRibbonUI ribbon)
          {
@@ -107,7 +180,6 @@ namespace YHExcelAddin
             foreach ( Workbook workbook in app.Workbooks)
             {
                 //RibbonGallery gallery = this.Factory.CreateRibbonGallery();
-
                 name += workbook.Name + " * ";              
                 n++;
             }

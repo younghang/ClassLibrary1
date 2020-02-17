@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
             this.说明 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -65,7 +66,7 @@
             this.label2.Text = "gongyanfang@atlbattery.com";
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
-            // MatchSheetDataForm
+            // AboutForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -73,8 +74,9 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.说明);
-            this.Name = "MatchSheetDataForm";
-            this.Text = "About";
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "AboutForm";
+            this.Text = "Description";
             this.ResumeLayout(false);
             this.PerformLayout();
 

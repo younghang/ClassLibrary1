@@ -109,7 +109,7 @@ namespace YHExcelAddin
             dynamic range = ws.Range["A" + line.ToString()];
             range.Select();
         }
-        [ExcelFunction(Name = "GetMaxumumContinusCount", Description = "统计字段最多连续出现的次数", IsMacroType = true, IsVolatile = true)]
+        [ExcelFunction(Name = "GetMaxumumContinusCount", Description = "统计字段最多连续出现的次数,像“A,B,B,C,B”,找B的话，返回的就是最长2个连续", IsMacroType = true, IsVolatile = true)]
         public static object GetMaxumumContinusCount(
               [ExcelArgument(Name = "TargetArray", Description = "单元格区域", AllowReference = true)]object[,] arraySource,
             [ExcelArgument(Name = "FindCriteria", Description = "匹配字段")]string findCriteria)
@@ -168,11 +168,11 @@ namespace YHExcelAddin
             }
             return MaxCount;
         }
-        [ExcelFunction(Name = "MatchSheetData", Description = "匹配查找相应的单元格 ", IsMacroType = true, IsVolatile = true)]
+        [ExcelFunction(Name = "MatchSheetData", Description = "匹配查找相应的单元格，绿色为匹配值，红色为重复值，需要手动判定", IsMacroType = true, IsVolatile = true)]
         public static object MatchSheetData(
-            [ExcelArgument(Name = "ArrayDes", Description = "要填充的单元格区域", AllowReference = true)]object[,] arrayDes,
+            [ExcelArgument(Name = "ArrayDes", Description = "匹配依据的单元格区域", AllowReference = true)]object[,] arrayDes,
             [ExcelArgument(Name = "ArraySource", Description = "数据来源区域", AllowReference = true)]object[,] arraySource,
-             [ExcelArgument(Name = "FillIndex", Description = "要填充的内容在单元格区域中第几列")]int sourceIndex,
+             [ExcelArgument(Name = "FillIndex", Description = "要套过来的内容在来源区域中第几列")]int sourceIndex,
             [ExcelArgument(Name = "FindCriteria", Description = "套过来的条件，多个用；隔开，如1=1；2=3")]string findCriteria
 
             )
@@ -276,13 +276,11 @@ namespace YHExcelAddin
                     {
                         pos.Interior.Color = Color.FromArgb(244, 176, 132);
                     }
-                else
+                    else
                     {
                         pos.Interior.Color = Color.FromArgb(146, 208, 80); 
-                    }
-                    
+                    }                    
                 }
-
             }
 
             return "OK";
