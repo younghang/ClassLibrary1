@@ -16,7 +16,10 @@ namespace WindowsFormsApp1
         {
             InitializeComponent();
         }
-
+        public bool IsRichBoxDisposed()
+        {
+            return this.richTextBox1.Disposing;
+        }
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
            
@@ -37,7 +40,7 @@ namespace WindowsFormsApp1
         private void AppendText(string info,string type="")
         {
             int len=richTextBox1.Text.Length;
-            this.richTextBox1.AppendText(info);
+            this.richTextBox1.Text+=info;
             richTextBox1.Select(len, info.Length);
             switch(type)
             {
@@ -58,6 +61,7 @@ namespace WindowsFormsApp1
         {
             return LastLine;
         }
+          
         private void richTextBox1_KeyUp(object sender, KeyEventArgs e)
         {
             if(e.KeyCode==Keys.Enter)
@@ -69,11 +73,34 @@ namespace WindowsFormsApp1
                 con.Run();
                 con.GetDataToInput();
             }
-            if(e.KeyCode==Keys.ControlKey)
+            if(e.KeyCode==Keys.Escape )
             {
                 AppendText(LastLine, ">>");
+                e.Handled = true;
             }
+            if (e.KeyCode == Keys.Tab)
+            {
+                string[] lines = this.richTextBox1.Text.Split('\n');
+                if (lines.Length < 2)
+                    return;
+                string result = lines[lines.Length - 2];
+                try
+                {
+                    double.Parse(result);
+                    AppendText(result, ">>");
+                    e.Handled = true;
+                }
+                catch(Exception)
+                {
+                    return;
+                }
+                
+            }
+        }
 
+        private void Form2_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.richTextBox1.Dispose();
         }
     }
 }

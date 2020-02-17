@@ -20,8 +20,7 @@ namespace YHExcelAddin.Calculator.UIController
 		Function.FuncString funstring = new Function.FuncString();
 
 		public UIController()
-		{
-			ShowOutput("Hello World! type: help() to know how to use"+System.Environment.NewLine,">>");
+		{			
 		}
 		public void GetDataToInput()
 		{

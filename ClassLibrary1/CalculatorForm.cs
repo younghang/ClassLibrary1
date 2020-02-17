@@ -21,7 +21,7 @@ namespace YHExcelAddin
         {
            
             //richTextBox1.SelectionStart = richTextBox1.Text.Length;
-            richTextBox1.ScrollToCaret(); 
+            //richTextBox1.ScrollToCaret(); //不要用这种东西
             richTextBox1.HideSelection = false;
         }
         UIController con;
@@ -31,6 +31,7 @@ namespace YHExcelAddin
             UIController.ShowOutput += AppendText;
             con = new UIController();            
             con.GetInput += GetLastLineOfRichTextBox;
+            AppendText("Hello World! type: help() to know how to use" + System.Environment.NewLine, ">>");
             con.GetDataToInput();
         }
 
@@ -53,6 +54,11 @@ namespace YHExcelAddin
             richTextBox1.HideSelection = false;
             richTextBox1.SelectionStart = richTextBox1.Text.Length;
         }
+        public bool IsRichBoxDisposed()
+        {
+            //这个是个问题，new form的时候，不会重新创建
+            return this.richTextBox1.Disposing;
+        }
         private string LastLine = "";
         private string GetLastLineOfRichTextBox()
         {
@@ -73,11 +79,28 @@ namespace YHExcelAddin
                 con.Run();
                 con.GetDataToInput();
             }
-            if(e.KeyCode==Keys.ControlKey)
+            if (e.KeyCode == Keys.Escape)
             {
                 AppendText(LastLine, ">>");
+                e.Handled = true;
             }
-
+            if (e.KeyCode == Keys.Tab)
+            {
+                string[] lines = this.richTextBox1.Text.Split('\n');
+                if (lines.Length < 2)
+                    return;
+                string result = lines[lines.Length - 2];
+                try
+                {
+                    double.Parse(result);
+                    AppendText(result, ">>");
+                    e.Handled = true;
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+            }
         }
 
         private void CalculatorForm_FormClosing(object sender, FormClosingEventArgs e)

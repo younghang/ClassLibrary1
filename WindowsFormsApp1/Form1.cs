@@ -164,14 +164,16 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-           
-            Console.WriteLine("nihao");
-            //UIController con = new UIController();
-            //con.Run();
-            //AllocConsole();   //开启控制台
-            Console.WriteLine("nihaoa");
+
+            if (clcForm == null || clcForm.IsDisposed || clcForm.IsRichBoxDisposed())
+            {
+                clcForm = new Form2();                
+            }
+            clcForm.Show();
+            clcForm.Focus();
         }
-       
+        public static Form2 clcForm;
+
     }
     public class CustomProgressBar : ProgressBar
     {

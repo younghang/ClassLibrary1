@@ -96,12 +96,14 @@ namespace YHExcelAddin
                 case "FillEmpty":
                     FillEmpty(); break;
                 case "Calculator":
-                    if (clcForm == null || clcForm.IsDisposed)
+                    if (clcForm == null || clcForm.IsDisposed||clcForm.IsRichBoxDisposed())
                     {
-                        clcForm = new CalculatorForm();
+                        clcForm = new CalculatorForm();                       
                     }
                     clcForm.Show();
-                    clcForm.Focus();
+                    clcForm.Focus(); 
+                    clcForm.Activate();
+                    clcForm.WindowState = FormWindowState.Normal;
                     break;
                 default:
                     MessageBox.Show("Hello:" + control.Id);

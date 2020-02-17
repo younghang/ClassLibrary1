@@ -114,12 +114,6 @@
     <Compile Include="Calculator\UIController\TempData.cs" />
     <Compile Include="Calculator\UIController\TempDataCollection.cs" />
     <Compile Include="Calculator\UIController\UIController.cs" />
-    <Compile Include="CalForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CalForm.Designer.cs">
-      <DependentUpon>CalForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="ComAddInConnection.cs" />
     <Compile Include="CTPControl.cs">
       <SubType>UserControl</SubType>
@@ -158,6 +152,9 @@
   <ItemGroup>
     <EmbeddedResource Include="AddInForm.resx">
       <DependentUpon>AddInForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Calculator\UIController\FuncFigure.resx">
+      <DependentUpon>FuncFigure.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CTPControl.resx">
       <DependentUpon>CTPControl.cs</DependentUpon>

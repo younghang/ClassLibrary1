@@ -52,7 +52,7 @@
             this.Controls.Add(this.richTextBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CalculatorForm";
-            this.Text = "Calculator";
+            this.Text = "Calculator   [Escape: repeat.  Tab: result.]";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CalculatorForm_FormClosing);
             this.Load += new System.EventHandler(this.Form2_Load);

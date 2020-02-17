@@ -39,31 +39,31 @@ namespace YHExcelAddin.Calculator.UIController
 
 			#region 画坐标系
 
-			g.TranslateTransform(righttop, righttop);
-			g.ScaleTransform(1, -1);//y轴反向 或者下面这个
-									//		    g.Transform.Multiply(new Matrix(1, 0, 0, -1, 0, 0)); 
+			//g.TranslateTransform(righttop, righttop);
+			//g.ScaleTransform(1, -1);//y轴反向 或者下面这个
+			//						//		    g.Transform.Multiply(new Matrix(1, 0, 0, -1, 0, 0)); 
 
-			Rectangle rect = new Rectangle(-righttop, -righttop, 2 * righttop, 2 * righttop);
-			SolidBrush b1 = new SolidBrush(Color.AliceBlue);//定义单色画刷
+			//Rectangle rect = new Rectangle(-righttop, -righttop, 2 * righttop, 2 * righttop);
+			//SolidBrush b1 = new SolidBrush(Color.AliceBlue);//定义单色画刷
 
-			p.Brush = b1;
-			p.DashPattern = new float[] { 2, 1 };
-			//			g.DrawRectangle(p, -righttop, -righttop, righttop, righttop);//在画板上画矩形,起始坐标为(10,10),宽为,高为
-			g.FillRectangle(b1, rect);//填充这个矩形
-			p.DashStyle = DashStyle.Solid;//恢复实线
-			p.EndCap = LineCap.ArrowAnchor;//定义线尾的样式为箭头
+			//p.Brush = b1;
+			//p.DashPattern = new float[] { 2, 1 };
+			////			g.DrawRectangle(p, -righttop, -righttop, righttop, righttop);//在画板上画矩形,起始坐标为(10,10),宽为,高为
+			//g.FillRectangle(b1, rect);//填充这个矩形
+			//p.DashStyle = DashStyle.Solid;//恢复实线
+			//p.EndCap = LineCap.ArrowAnchor;//定义线尾的样式为箭头
 
-			//画箭头,只对不封闭曲线有用
-			System.Drawing.Drawing2D.AdjustableArrowCap _LineCap = new System.Drawing.Drawing2D.AdjustableArrowCap(9, 9, false);   //设置一个线头	
-			Pen _Pen = new Pen(Brushes.Black, 1);
-			_Pen.CustomEndCap = (System.Drawing.Drawing2D.CustomLineCap)_LineCap;
-			g.DrawLine(_Pen, -righttop + righttop / 10, 0, righttop - righttop / 10, 0);//X轴 在画板上画直线,起始坐标为(10,10),终点坐标为(100,100)
-			g.DrawLine(_Pen, 0, -righttop + righttop / 10, 0, righttop - righttop / 10);//在画板上画直线,起始坐标为(10,10),终点坐标为(100,100)
-																						//写坐标名
-			g.ScaleTransform(1, -1);
-			g.DrawString(xlable, new Font("宋体", 12), _Pen.Brush, righttop - righttop / 10, 0);
-			g.DrawString(ylable, new Font("宋体", 12), _Pen.Brush, -righttop / 10, -righttop + righttop / 20);
-			g.DrawString("O", new Font("宋体", 12), _Pen.Brush, righttop / 20, -righttop / 10);
+			////画箭头,只对不封闭曲线有用
+			//System.Drawing.Drawing2D.AdjustableArrowCap _LineCap = new System.Drawing.Drawing2D.AdjustableArrowCap(9, 9, false);   //设置一个线头	
+			//Pen _Pen = new Pen(Brushes.Black, 1);
+			//_Pen.CustomEndCap = (System.Drawing.Drawing2D.CustomLineCap)_LineCap;
+			//g.DrawLine(_Pen, -righttop + righttop / 10, 0, righttop - righttop / 10, 0);//X轴 在画板上画直线,起始坐标为(10,10),终点坐标为(100,100)
+			//g.DrawLine(_Pen, 0, -righttop + righttop / 10, 0, righttop - righttop / 10);//在画板上画直线,起始坐标为(10,10),终点坐标为(100,100)
+			//																			//写坐标名
+			//g.ScaleTransform(1, -1);
+			//g.DrawString(xlable, new Font("宋体", 12), _Pen.Brush, righttop - righttop / 10, 0);
+			//g.DrawString(ylable, new Font("宋体", 12), _Pen.Brush, -righttop / 10, -righttop + righttop / 20);
+			//g.DrawString("O", new Font("宋体", 12), _Pen.Brush, righttop / 20, -righttop / 10);
 
 			#endregion
 
@@ -202,6 +202,9 @@ namespace YHExcelAddin.Calculator.UIController
 			mchart.SetBounds(20, 30, 350, 350);
 		}
 
+		private void FuncFigure_Load(object sender, EventArgs e)
+		{
 
+		}
 	}
 }
