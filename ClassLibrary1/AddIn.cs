@@ -9,7 +9,6 @@ using System.Windows.Forms;
 using Microsoft.Office.Core;
 using ExcelDna.Registration;
 using Microsoft.Office.Interop.Excel;
-
 namespace YHExcelAddin
 {
     public class AddIn : IExcelAddIn
@@ -35,6 +34,8 @@ namespace YHExcelAddin
                 .Where(func => func.FunctionAttribute.Name.StartsWith("Params"))
                 .ProcessParamsRegistrations()
                 .RegisterFunctions();
+
+
             //ComAddInConnection com_addin = new ComAddInConnection();
             //ExcelComAddInHelper.LoadComAddIn(com_addin);
         }

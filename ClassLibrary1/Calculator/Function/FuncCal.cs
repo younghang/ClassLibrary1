@@ -83,7 +83,7 @@ namespace YHExcelAddin.Calculator.Function
 			funcstring.ResetWrong();
 			return errormessge;
 		}
-		public static Decimal ChangeDataToDecimal(string strData)
+		private static Decimal ChangeDataToDecimal(string strData)
         {
             Decimal dData = 0.0M;
             if (strData.Contains("E"))

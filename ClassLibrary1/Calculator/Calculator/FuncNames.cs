@@ -16,9 +16,9 @@ namespace YHExcelAddin.Calculator.Calculator
 	/// 定义函数名称作为计算的接口
 	/// 起检查和在计算过程中临时保存函数名的作用（暂时）
 	/// </summary>
-	public class FuncName
+	public class FuncNames
 	{
-		public FuncName()
+		public FuncNames()
 		{
 			
 			
@@ -68,11 +68,12 @@ namespace YHExcelAddin.Calculator.Calculator
 		private string strfuncname="";
 		private  static   List<string> option= new List<string>{ "sin","cos","tan","abs" ,"sqrt","pow","log","circlearea"};
 		private static string character="";
+		 
 		public  static string GetFunc()
 		{
 			return character ;
 		}
-		public    string GetFuncName()
+		public string GetFuncName()
 		{
 			return this.strfuncname ;
 		}
@@ -103,6 +104,7 @@ namespace YHExcelAddin.Calculator.Calculator
 			}
 			
 		}
+		 
 		public static int FindName(string strr)
 		{
 		 
@@ -116,7 +118,8 @@ namespace YHExcelAddin.Calculator.Calculator
 		/// <param name="sr"></param>
 		/// <param name="stn"></param>
 		/// <returns></returns>
-        public static bool CheckFun(string sr,int stn)
+		 
+		public static bool CheckFun(string sr,int stn)
         {
             funInfo fi=new funInfo(sr, stn);
             bool result = false;

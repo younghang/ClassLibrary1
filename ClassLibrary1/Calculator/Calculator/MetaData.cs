@@ -31,13 +31,13 @@ namespace YHExcelAddin.Calculator.Calculator
 		}
 		private Option option = null;
 		private Double num;
-		private FuncName fun = null;
+		private FuncNames fun = null;
 		public void SetNum(double a)
 		{
 			this.num = a;
 			TypeN = 1;
 		}
-		public void SetFun(FuncName a)
+		public void SetFun(FuncNames a)
 		{
 			this.fun = a;
 			TypeN = 3;
@@ -61,7 +61,7 @@ namespace YHExcelAddin.Calculator.Calculator
 		{
 			return option;
 		}
-		public FuncName GetFunc()
+		public FuncNames GetFunc()
 		{
 			return fun;
 		}

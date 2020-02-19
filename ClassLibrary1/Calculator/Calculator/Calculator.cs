@@ -19,21 +19,22 @@ namespace YHExcelAddin.Calculator.Calculator
 		public Calculator()
 		{
 			SetRad(false);
-			FuncName.AddFunc("exp",1);
-			FuncName.AddFunc("sum",0);
-			FuncName.AddFunc("avg",0);
-			FuncName.AddFunc("ln",1);
-			FuncName.AddFunc("lg",1);
-			FuncName.AddFunc("asin",1);
-			FuncName.AddFunc("acos",1);
-			FuncName.AddFunc("atan",1);
+			FuncNames.AddFunc("exp",1);
+			FuncNames.AddFunc("sum",0);
+			FuncNames.AddFunc("avg",0);
+			FuncNames.AddFunc("ln",1);
+			FuncNames.AddFunc("lg",1);
+			FuncNames.AddFunc("asin",1);
+			FuncNames.AddFunc("acos",1);
+			FuncNames.AddFunc("atan",1);
 		}
 		/// <summary>
 		/// 为后续改的 避免没有初始化Calculator的时候发现未定义函数 解决输入检查的问题
 		/// </summary>
+		 
 		public  bool CheckFuncName (string strfuncname)
 		{
-			return FuncName.CheckFuncName(strfuncname);
+			return FuncNames.CheckFuncName(strfuncname);
 		}
 		
 		public bool Wrong=false;
@@ -113,8 +114,8 @@ namespace YHExcelAddin.Calculator.Calculator
 					case "avg": return Average(add);
 					}
 			//有限制		 
-			if (!FuncName.CheckFun(str,add.Length)) {
-				SortBlock2G.error.ErrorMessage+="函数: "+str+"参数个数错误,应为"+FuncName.options[FuncName.FindName(str)].GetFunNum()+"\n";
+			if (!FuncNames.CheckFun(str,add.Length)) {
+				SortBlock2G.error.ErrorMessage+="函数: "+str+"参数个数错误,应为"+FuncNames.options[FuncNames.FindName(str)].GetFunNum()+"\n";
 				Wrong=true;
 				
 				return 0;

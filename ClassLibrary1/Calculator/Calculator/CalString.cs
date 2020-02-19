@@ -115,6 +115,7 @@ namespace YHExcelAddin.Calculator.Calculator
 			return reb;
 			
 		}
+		 
 		public bool CheckFunName(string str)
 		{
 			return (new Calculator()).CheckFuncName(str);

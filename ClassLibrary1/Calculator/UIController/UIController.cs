@@ -71,7 +71,7 @@ namespace YHExcelAddin.Calculator.UIController
 								//								new Thread(new ThreadStart(()=>cm.PlotFuncParallel(funcs, 6, 1000, -10, 10))).Start();
 							}
 							else
-								PushToShow("Wrong!");
+								PushToShow("Wrong!", "error");
 							break;
 						case "list":
 
@@ -156,7 +156,7 @@ namespace YHExcelAddin.Calculator.UIController
 									PushToShow("clear " + funs);
 								}
 								else
-									PushToShow("fail to clear.Can't find " + funs);
+									PushToShow("fail to clear.Can't find " + funs, "error");
 
 							}
 							break;
@@ -178,7 +178,7 @@ namespace YHExcelAddin.Calculator.UIController
 
 					if (funstring.GetParamers() != null)
 					{
-						PushToShow("进入函数求值过程");
+						//PushToShow("进入函数求值过程");
 						FuncString funs = FindFuncInTDC(funstring.GetFuncName());
 						double result = GetFuncResult(funs, new FuncString(InputData).GetParamersData());
 						PushToShow("结果：" + result);
@@ -195,7 +195,7 @@ namespace YHExcelAddin.Calculator.UIController
 						PushToShow("没有此函数");
 					}
 					else
-						PushToShow(str);
+						ShowOutput(str+'\n',"result");
 
 					return;
 				}
@@ -222,7 +222,7 @@ namespace YHExcelAddin.Calculator.UIController
 				}
 				catch (AssignedError e)
 				{
-					PushToShow(e.Message);
+					PushToShow(e.Message, "error");
 					return;
 				}
 
@@ -269,7 +269,7 @@ namespace YHExcelAddin.Calculator.UIController
 					PushToShow("No result");
 				}
 				else
-					PushToShow(str);
+					ShowOutput(str+'\n',"result");
 			}
 
 
@@ -286,8 +286,8 @@ namespace YHExcelAddin.Calculator.UIController
 				double result = sc.GetResult();
 				if (sc.IsError())
 				{
-					PushToShow("Wrong Input");
-					PushToShow(sc.GetErrorMessage());
+					//PushToShow("Wrong Input");
+					PushToShow(sc.GetErrorMessage(), "error");
 					wrong = true;
 				}
 				else
@@ -295,7 +295,7 @@ namespace YHExcelAddin.Calculator.UIController
 			}
 
 
-			PushToShow("表达式错误");
+			PushToShow("表达式错误", "error");
 
 
 			if (wrong)
@@ -368,14 +368,14 @@ namespace YHExcelAddin.Calculator.UIController
 					{
 						case DataType.BLOCK:
 							{
-								PushToShow("Type not match!");
+								PushToShow("Type not match!", "error");
 							}
 							break;
 						case DataType.EXP:
 							{
 								ExpData ed = (ExpData)datatemp;
 								paramersdata[i] = ed.GetValueEx();
-								PushToShow("提取" + strarr[i] + "的值：" + paramersdata[i]);
+								//PushToShow("提取" + strarr[i] + "的值：" + paramersdata[i]);
 								break;
 							}
 						case DataType.MATRIX:
@@ -398,7 +398,7 @@ namespace YHExcelAddin.Calculator.UIController
 
 				}
 
-				PushToShow("未发现变量" + strarr[i] + "还未定义其值\n退出");
+				PushToShow("未发现变量" + strarr[i] + "还未定义其值\n退出","error");
 				return null;
 
 
@@ -421,7 +421,7 @@ namespace YHExcelAddin.Calculator.UIController
 		{
 			if (tdc.CheckName(strName))
 			{
-				PushToShow("变量重复,就不更新掉了");
+				//PushToShow("变量重复,就不更新掉了");
 
 				return true;
 			}
@@ -457,7 +457,7 @@ namespace YHExcelAddin.Calculator.UIController
 
 				if (fc.IsWrong())
 				{
-					PushToShow(fc.ErrorMessage());
+					PushToShow(fc.ErrorMessage(),"error");
 				}
 			}
 			return result;
@@ -493,20 +493,18 @@ namespace YHExcelAddin.Calculator.UIController
 						}
 						catch (ExpError e)
 						{
-							PushToShow(e.Message);
+							PushToShow(e.Message, "error");
 							return;
 						}
 						if (getdt == DataType.EXP)
 						{
 							try
 							{
-
-
 								((ExpData)(da.GetCalData())).GetValueFinal();//防止循环调用SimpleCal--> ReplaceParamers--> GetValueEx-->SimpleCal
 							}
 							catch (AssignedError e)
 							{
-								PushToShow(e.Message);
+								PushToShow(e.Message,"error");
 								return;
 							}
 
@@ -519,7 +517,7 @@ namespace YHExcelAddin.Calculator.UIController
 					}
 					catch (AssignedError e)
 					{
-						PushToShow(e.Message);
+						PushToShow(e.Message, "error");
 						return;
 					}
 
@@ -537,13 +535,13 @@ namespace YHExcelAddin.Calculator.UIController
 			}
 			if (funstring.CheckFunName(funs))
 			{
-				PushToShow("Variable Name not acceptable!");
+				PushToShow("Variable Name not acceptable!", "error");
 				return;
 			}
 			if (tdc.CreateData(funstring.GetFuncName(), caldata))
 				PushToShow("数据已保存");
 			else
-				PushToShow("Not accept input!");
+				PushToShow("Not accept input!","error");
 			#region 之前写的不好就改了
 
 
@@ -573,11 +571,11 @@ namespace YHExcelAddin.Calculator.UIController
 		 
 		}
 
-		public static void PushToShow(string toshow)
+		public static void PushToShow(string toshow,string type="")
 		{
 			//有界面再用到
 			//Console.WriteLine(toshow);
-			ShowOutput(toshow+"\n","");
+			ShowOutput(toshow+"\n", type);
 		}
 		#region  废弃
 
@@ -587,16 +585,16 @@ namespace YHExcelAddin.Calculator.UIController
 			double result = 0;
 			if (fs != null)
 			{
-				PushToShow("有括号求值");
+				//PushToShow("有括号求值");
 				FuncCal fc = new FuncCal();
 				FuncString funs = tdcl.GetData(fs).ConvertTOFunString();
 				fc.SetFuncString(funs);
 				fc.DealFuncstring(nums);
 				result = fc.GetResult();
-				PushToShow("结果：" + fc.GetResult());
+				PushToShow( fc.GetResult().ToString(),"result");
 				if (fc.IsWrong())
 				{
-					PushToShow("出错了！" + fc.ErrorMessage());
+					PushToShow("出错了！" + fc.ErrorMessage(), "error");
 				}
 			}
 			return result;

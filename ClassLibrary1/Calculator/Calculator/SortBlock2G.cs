@@ -10,7 +10,7 @@ namespace YHExcelAddin.Calculator.Calculator
 	/// 再除去括号变成仅含有四则运算的后置表达式 
 	/// 最后用数字堆栈计算后置表达式得到结果调用Calculator函数
 	/// 这个比较复杂
-
+	/// 限制了最大运算数量 100个
 	/// <summary>
 	/// 大概是这样  先完成
 	/// </summary>
@@ -112,7 +112,6 @@ namespace YHExcelAddin.Calculator.Calculator
 					if (strNum != "") {
 						PutNumToData();
 					}
-
 
 					if (strFun != "") {
 						i = PutFuncToData(i);//返回另一个括号
@@ -250,7 +249,7 @@ namespace YHExcelAddin.Calculator.Calculator
 		{
 			int k = 0;
 			SortBlock2G sortblock2 = new SortBlock2G(); 
-			FuncName fn = new FuncName();
+			FuncNames fn = new FuncNames();
 			fn.SetFuncName(strFun);
 			strFun = "";
 			if ((new Calculator()).CheckFuncName(fn.GetFuncName())) {

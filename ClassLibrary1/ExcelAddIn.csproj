@@ -83,7 +83,7 @@
     <Compile Include="Calculator\Calculator\CalError.cs" />
     <Compile Include="Calculator\Calculator\CalString.cs" />
     <Compile Include="Calculator\Calculator\MetaData.cs" />
-    <Compile Include="Calculator\Calculator\FuncName.cs" />
+    <Compile Include="Calculator\Calculator\FuncNames.cs" />
     <Compile Include="Calculator\Calculator\Option.cs" />
     <Compile Include="Calculator\Calculator\SortBlock2G.cs" />
     <Compile Include="Calculator\Calculator\Stack.cs" />

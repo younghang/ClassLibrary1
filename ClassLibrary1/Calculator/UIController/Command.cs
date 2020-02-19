@@ -45,7 +45,7 @@ namespace YHExcelAddin.Calculator.UIController
 				showlines += forthline;
 				showlines += fifthline;
 				showlines += sixthline;
-				UIController.PushToShow(showlines);
+				UIController.PushToShow(showlines,"instruction");
 				return;
 			}
 			switch (parameters)
@@ -73,7 +73,7 @@ namespace YHExcelAddin.Calculator.UIController
 					apps.Append("Not support to help  " + parameters);
 					break;
 			}
-			UIController.PushToShow(apps.ToString());
+			UIController.PushToShow(apps.ToString(), "instruction");
 		}
 
 		public void PlotFunc( FuncString fs, int decimallength = 6, int points = 100, params double[] xstart)

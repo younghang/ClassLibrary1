@@ -30,6 +30,7 @@ namespace YHExcelAddin.Calculator.Calculator
 		{
 			return cal;
 		}
+		 
 		public static bool CheckFunName(string strfun)
 		{
 			return (new Calculator()).CheckFuncName(strfun);

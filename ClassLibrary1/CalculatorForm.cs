@@ -31,7 +31,7 @@ namespace YHExcelAddin
             UIController.ShowOutput += AppendText;
             con = new UIController();            
             con.GetInput += GetLastLineOfRichTextBox;
-            AppendText("Hello World! type: help() to know how to use" + System.Environment.NewLine, ">>");
+            AppendText("Hello World! enter: help() for illustration" + System.Environment.NewLine, ">>");
             con.GetDataToInput();
         }
 
@@ -46,8 +46,20 @@ namespace YHExcelAddin
                     richTextBox1.SelectionFont = new Font("Consolas", 12,FontStyle.Bold);
                     this.richTextBox1.SelectionColor = Color.FromArgb(0, 0, 0);
                     break;
+                case "result":
+                    richTextBox1.SelectionFont = new Font("Consolas", 12, FontStyle.Bold);
+                    this.richTextBox1.SelectionColor = Color.FromArgb(0, 176, 240);
+                    break;
+                case "instruction":
+                    richTextBox1.SelectionFont = new Font("Consolas", 9, FontStyle.Italic);
+                    this.richTextBox1.SelectionColor = Color.FromArgb(0, 176, 80);
+                    break;
+                case "error":
+                    richTextBox1.SelectionFont = new Font("Consolas", 9, FontStyle.Bold);
+                    this.richTextBox1.SelectionColor = Color.FromArgb(255, 0, 0);
+                    break;
                 default:
-                    richTextBox1.SelectionFont = new Font("Consolas", 12);
+                    richTextBox1.SelectionFont = new Font("Consolas", 9);
                     this.richTextBox1.SelectionColor = Color.FromArgb(0, 0, 0);
                     break;
             }
@@ -64,21 +76,21 @@ namespace YHExcelAddin
         {
             return LastLine;
         }
-        private void richTextBox1_KeyUp(object sender, KeyEventArgs e)
+        private void richTextBox1_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode==Keys.Enter)
+            if (e.KeyCode == Keys.Enter)
             {
-                string[] lines=this.richTextBox1.Text.Split('\n');
-                if (lines.Length < 2)
-                    return;                
-                LastLine= lines[lines.Length - 2];
-                if (LastLine.Length < 2)
-                    return;
+                string[] lines = this.richTextBox1.Text.Split('\n');
+                LastLine = lines[lines.Length - 1];
                 LastLine = LastLine.Substring(2);
                 e.Handled = true;
+                this.richTextBox1.AppendText("\n");
                 con.Run();
                 con.GetDataToInput();
             }
+        }
+        private void richTextBox1_KeyUp(object sender, KeyEventArgs e)
+        {
             if (e.KeyCode == Keys.Escape)
             {
                 AppendText(LastLine, ">>");

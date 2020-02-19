@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DnaLibrary Name="ExcelAddIn Add-In" RuntimeVersion="v4.0" xmlns="http://schemas.excel-dna.net/addin/2018/05/dnalibrary">
-  <ExternalLibrary Path="YHExcelAddin.dll" ExplicitExports="false" LoadFromBytes="true" Pack="true" IncludePdb="false" />
+  <ExternalLibrary Path="YHExcelAddin.dll" ExplicitExports="true" LoadFromBytes="true" Pack="true" IncludePdb="false" />
   <ExternalLibrary Path="ExcelDna.IntelliSense.dll" ExplicitExports="true"  Pack="true"  />
   <ExternalLibrary Path="ExcelDna.Registration.dll" ExplicitExports="true"  Pack="true"  />
 
