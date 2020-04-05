@@ -18,6 +18,10 @@
           <separator id="separator3" />
           <button id='Calculator' image='cal.png' label='计算器' screentip="可以进行科学计算的计算器" supertip="方便使用"  size='large' onAction='button_Click' />
         </group >
+        <group id='GraphGroup' label='绘图'>
+          <button id='DrawPlatoGraph' onAction='button_Click' label='柏拉图' screentip='柏拉图' image='plato.png'  size='large'  />
+          <button id='ShowDanmu' onAction='button_Click' label='测试通知' screentip='测试'   size='normal'  />
+        </group >
         <group id='SampleGroup' label='CTP Control'>
           <button id='ShowCTP' label='打开面板' screentip='可以快速在当前打开的所有工作簿间进行切换' image='panel2.png'  size='large' onAction='OnShowCTP' />
           <button id='DeleteCTP' label='关闭面板' image='close_panel.png'   size='large' onAction='OnDeleteCTP' />
@@ -29,10 +33,16 @@
             <button id="btn_com1" label="COM1"   onAction='button_Click'  />
             <menuSeparator id="MySeparator2" />
             <button id="btn_com2" label="COM2"   onAction='button_Click'  />
-          </menu> 
+          </menu>
           <!-- 使用RunTagMacro，可以调用vba中的函数,也可以调用XLL中的ExcelCommand -->
         </group >
+        <group id='Game' label='其他'>
+          <menu id="GameMenu" label="其他程序" description="自己写的" screentip="看看" supertip="试试" image="swift.png" size="large">
+            <button id="fivechess" image="chess.png" label="五子棋"   onAction='button_Click'  />
+            <menuSeparator id="MySeparator000" />
 
+          </menu>          
+        </group >
         <group id='About' label='About'>
           <button id='ShowAbout' label='关于' image='yanzi.png' size='large' onAction='OnShowInfo' />
         </group >

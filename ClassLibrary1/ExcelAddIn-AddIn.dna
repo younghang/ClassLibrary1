@@ -3,8 +3,8 @@
   <ExternalLibrary Path="YHExcelAddin.dll" ExplicitExports="true" LoadFromBytes="true" Pack="true" IncludePdb="false" />
   <ExternalLibrary Path="ExcelDna.IntelliSense.dll" ExplicitExports="true"  Pack="true"  />
   <ExternalLibrary Path="ExcelDna.Registration.dll" ExplicitExports="true"  Pack="true"  />
-
-
+  <ExternalLibrary Path="BilibiliStyleDanmu.dll" ExplicitExports="true"  Pack="true"  />
+  <ExternalLibrary Path="WindowsFormsApp1.dll" ExplicitExports="true"  Pack="true"  />
   <!--
        The RuntimeVersion attribute above allows two settings:
        * RuntimeVersion="v4.0" - for .NET 4 and 4.5

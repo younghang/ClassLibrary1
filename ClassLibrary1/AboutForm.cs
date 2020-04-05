@@ -15,8 +15,11 @@ namespace YHExcelAddin
         {
             InitializeComponent();
             label1.Text = "此Addin添加了一个函数MatchDataSheet。可以匹配数据，但是得放到上一列,还可以标记颜色。" +
-                "另外还有两个功能是查看当前工作表的列数。" +
-                "还有切换工作簿的窗口，还有插件删除。";
+                "还有个函数GetMaximumContinusCount, 可以得到连续单元格的最大重复个数" +
+                "另外还有两个功能是标记重复以及填充空白单元格。" +
+                "还有切换工作簿的窗口，还有插件删除。" +
+                "还有一个计算器。" +
+                "和一个五子棋。";
         }
 
         private void label1_Click(object sender, EventArgs e)

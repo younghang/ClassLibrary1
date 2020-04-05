@@ -10,6 +10,7 @@ using Microsoft.Office.Interop.Excel;
 using System.Collections.Generic;
 using System.Drawing;
 using YHExcelAddin.Calculator.UIController;
+using WindowsFormsApp1;
 
 namespace YHExcelAddin
 {
@@ -17,7 +18,14 @@ namespace YHExcelAddin
     public class RibbonUI : ExcelRibbon 
     {
         private static IRibbonUI customRibbon;
-
+        
+        public static void  SelectionChanged(Range range)
+        {
+            if (RibbonUI.dyeForm != null && !RibbonUI.dyeForm.IsDisposed)
+            {
+                RibbonUI.dyeForm.SetSelectedRange(range);
+            }
+        }
         public override string GetCustomUI(string RibbonID)
         {
  
@@ -74,6 +82,9 @@ namespace YHExcelAddin
                 case "GetMaxLineButton":
                     MessageBox.Show("当前文档最大行数 "+MyExcelFunctions.GetMaxLineMacro());
                     break;
+                case "fivechess":
+                    MainForm main = new MainForm();
+                    main.Show();break;
                 case "btn_xll":
                     ShowAddInForm("xll");
                     break;
@@ -105,13 +116,27 @@ namespace YHExcelAddin
                     clcForm.Activate();
                     clcForm.WindowState = FormWindowState.Normal;
                     break;
+                case "DrawPlatoGraph":
+                    ShowPlato();break;
+                case "ShowDanmu":
+                    ShowDanmu();break;
                 default:
                     MessageBox.Show("Hello:" + control.Id);
                     break;
             }
            
         }
- 
+        private void ShowDanmu()
+        {
+            DanmukuTest plot = new DanmukuTest();
+            plot.Show();
+        }
+        private void ShowPlato()
+        {
+            PlotPlatoWindow plotPlato = new PlotPlatoWindow();
+            //System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(plotPlato);
+            plotPlato.Show();
+        }
 
 
         public void MarkSame()
@@ -119,6 +144,8 @@ namespace YHExcelAddin
             Excel.Application app = ExcelDnaUtil.Application as Excel.Application;
             Range range = app.Selection;
             int length = range.Count;
+            int line = app.ActiveSheet.Cells.SpecialCells(XlCellType.xlCellTypeLastCell).Row;
+            length = Math.Min(line, length);
             List<string> listCells = new List<string>();
             if (range.Areas.Count > 1)
             {
@@ -158,6 +185,9 @@ namespace YHExcelAddin
             string fillText = fillRange.FormulaR1C1Local;
             Range regionRange = range.Areas[1];
             int length = regionRange.Count;
+            int line = app.ActiveSheet.Cells.SpecialCells(XlCellType.xlCellTypeLastCell).Row;
+            int cols= app.ActiveSheet.Cells.SpecialCells(XlCellType.xlCellTypeLastCell).Column;
+            length = Math.Min(line*cols, length);
             for (int i = 0; i < length; i++)
             {
                 Range item = range.Cells[i + 1];               
@@ -167,6 +197,7 @@ namespace YHExcelAddin
                 }              
             }
         }
+
         public void ribbonLoad(IRibbonUI ribbon)
          {
             customRibbon = ribbon;

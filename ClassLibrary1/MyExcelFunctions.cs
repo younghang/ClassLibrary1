@@ -42,8 +42,18 @@ namespace YHExcelAddin
             }
             return sum;
         }
+        [ExcelFunction(Description = "My first .NET function")]
+        public static object SortList(string name)
+        {
+            List<double> sortList = new List<double>();
+            sortList.Add(1);
+            sortList.Add(2);
+            sortList.Add(3);
+            sortList.Add(4);
+            return sortList.ToArray();
+        }
         //[ExcelFunction(Description = "My first .NET function")]
-    
+
         public static string SayHello(string name)
         {
             return "Hello " + name;
@@ -102,6 +112,7 @@ namespace YHExcelAddin
             //int line = ws.Application.Range["A65536", Missing.Value].End(Microsoft.Office.Interop.Excel.XlDirection.xlUp).Row;
             return line.ToString();
         }
+        [ExcelCommand(MenuName = "Go To Bottom", MenuText = "Last of A1")]
         public static void GoToABottomMacro()
         {
             dynamic app = ExcelDnaUtil.Application;
@@ -112,7 +123,7 @@ namespace YHExcelAddin
             range.Select();
         }
         [ExcelFunction(Name = "GetMaxumumContinusCount", Description = "统计字段最多连续出现的次数,像“A,B,B,C,B”,找B的话，返回的就是最长2个连续", IsMacroType = true, IsVolatile = true)]
-        public static object GetMaxumumContinusCount(
+        public static object GetMaximumContinusCount(
               [ExcelArgument(Name = "TargetArray", Description = "单元格区域", AllowReference = true)]object[,] arraySource,
             [ExcelArgument(Name = "FindCriteria", Description = "匹配字段")]string findCriteria)
         {

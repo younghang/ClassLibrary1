@@ -87,10 +87,7 @@ namespace YHExcelAddin
                 MessageBox.Show(e.Message);
                 return;
             }
-            if (RibbonUI.dyeForm != null&&!RibbonUI.dyeForm.IsDisposed)
-            {
-                RibbonUI.dyeForm.SetSelectedRange(Target);                  
-            }
+            RibbonUI.SelectionChanged(Target);         
 
         }
 

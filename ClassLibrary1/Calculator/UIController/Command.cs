@@ -37,7 +37,7 @@ namespace YHExcelAddin.Calculator.UIController
 				const string secondline = "You can type like this:\n";
 				const string thirdline = "\t3.1+6/2+3!+3(2+7)  sin(30*pi/180)*2  or  ln(e)  \n\tA variable X can be start wtih letter or _:\n\t   a=3  _x2=6   x=2a+3 try enter  a+4  a   x   \n\tf(x)=x^2+3 enter f(4/2) to get value at x=2 also fx(x,y)=x+y^2\n";
 				const string forthline = "Here is some command:\n\tclc()\tplot()\tclear()\tlist()\n";
-				const string fifthline = "To known the normal math function it supports:\n\ttype help(func)\tbeep()\tmatrix()\n";
+				const string fifthline = "To know the normal math function it supports:\n\ttype help(func)\tbeep()\tmatrix()\n";
 				const string sixthline = "The following can be explained by typing help(arg)\n\targ can be:plot clc func list\n";
 				showlines += firstline;
 				showlines += secondline;
