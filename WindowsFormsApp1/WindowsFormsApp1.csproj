@@ -79,8 +79,8 @@
     <Compile Include="ExcelFormWithNotify.Designer.cs">
       <DependentUpon>ExcelFormWithNotify.cs</DependentUpon>
     </Compile>
-    <Compile Include="PlotPlatoWindow.xaml.cs">
-      <DependentUpon>PlotPlatoWindow.xaml</DependentUpon>
+    <Compile Include="PlotMainWindow.xaml.cs">
+      <DependentUpon>PlotMainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PlotWindow\Pages\UCPHistogram.xaml.cs">
       <DependentUpon>UCPHistogram.xaml</DependentUpon>
@@ -138,7 +138,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="PlotPlatoWindow.xaml">
+    <Page Include="PlotMainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

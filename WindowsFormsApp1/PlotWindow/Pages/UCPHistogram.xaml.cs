@@ -14,7 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WindowsFormsApp1.PlotWindow.Pages.UCWidgets;
- 
+using Excel = Microsoft.Office.Interop.Excel;
+using Microsoft.Office.Interop.Excel;
+
 namespace WindowsFormsApp1.PlotWindow
 {
     /// <summary>
@@ -40,17 +42,56 @@ namespace WindowsFormsApp1.PlotWindow
         double MaxNum = -10000000;
         double MinNum = 10000000;
         List<double> rankValue = null;
-        int groupCount =16;
-
+        Int32 groupCount =16;
+        public List<string> GetDataFromRange()
+        {
+            List<string> selectDatas = new List<string>();
+            if (PlotMainWindow.application == null)
+                return selectDatas;
+            if (PlotMainWindow.application.Workbooks.Count == 0)
+            {
+                this.txtInfo.Text = "还没打开表格呢";
+                return selectDatas;
+            }
+            GetRegionInfos().DataTxt = "先不管";
+            GetRegionInfos().LableTxt = "Data";
+            Range range1 = PlotMainWindow.application.Range[this.GetRegionInfos().LableRegion.Replace('：', ':').Trim(new char[] { ' ', '\n' })];
+            Range range2 = PlotMainWindow.application.Range[this.GetRegionInfos().DataRegion.Replace('：', ':').Trim(new char[] { ' ', '\n' })];
+            if (range1.Columns.Count != 1)
+            {
+                MessageBox.Show("数据区域需为单列");
+                return selectDatas;
+            }
+            //Math.Min(range1.Count, range2.Count);
+            int length = range1.Count;
+            //这个会触发Excel SelectChange事件
+            int line = PlotMainWindow.application.ActiveSheet.Cells.SpecialCells(XlCellType.xlCellTypeLastCell).Row;
+            length = Math.Min(line, length);
+        
+            for (int i = 0; i < length; i++)
+            { 
+              selectDatas.Add(range1.Cells[i + 1].FormulaR1C1Local.ToString());          
+            }
+            return selectDatas;           
+        }
         public void SetData()
         {
+
             standard_deviation=0;
             mean = 0;
             sum = 0;
             square_sum = 0;
             UL = double.Parse(dataUpperLimits.Text) ;
             LL = double.Parse(dataLowerLimits.Text);
-            var data= File.ReadAllLines("./data.txt");
+
+            //var data= File.ReadAllLines("./data.txt");
+            var data = GetDataFromRange();
+            if (data.Count == 0)
+            {
+                this.txtInfo.Text = "无数据";
+                return;
+            }
+
             groupCount = (int)slider.Value;
             rankValue = new List<double>();
             var c = from d in data 
@@ -96,14 +137,15 @@ namespace WindowsFormsApp1.PlotWindow
                 this.mean = this.sum / this.originalData.Count();
                 this.standard_deviation = Math.Sqrt(this.square_sum / this.originalData.Count() - this.mean * this.mean);
                 this.GetPValue();
-                this.txtInfo.Dispatcher.Invoke(new Action(()=>
+                this.txtInfo.Dispatcher.Invoke(new System.Action(()=>
                 {
                 this.txtInfo.Text =
                     "\nCount:\n" + this.originalData.Count +
                     "\nMean:\n" + this.mean.ToString()
                     + "\nsigma:\n" + this.standard_deviation
-                    + "\npValue:\n" + this.pValue
-                    + "\nKS:\n" + ks.ToString("f2");
+                    +"\n\n正态性校验:"
+                    + "\npValue:\n" + this.pValue.ToString("0.###E+0")
+                    + "\nKS:\n" + ks.ToString("0.###E+0");
                     Computing = false;
                 }));
              
@@ -152,7 +194,7 @@ namespace WindowsFormsApp1.PlotWindow
                     square_sum += c * c;
                     return true;
                 }
-            }catch(Exception e)
+            }catch(Exception)
             {
                 return false;
             }

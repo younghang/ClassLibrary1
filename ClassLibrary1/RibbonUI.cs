@@ -18,6 +18,7 @@ namespace YHExcelAddin
     public class RibbonUI : ExcelRibbon 
     {
         private static IRibbonUI customRibbon;
+        private static Range selectRange = null;
         
         public static void  SelectionChanged(Range range)
         {
@@ -25,6 +26,11 @@ namespace YHExcelAddin
             {
                 RibbonUI.dyeForm.SetSelectedRange(range);
             }
+            selectRange = range;            
+        }
+        public static Range GetSelectRange()
+        {
+            return selectRange;
         }
         public override string GetCustomUI(string RibbonID)
         {
@@ -133,8 +139,10 @@ namespace YHExcelAddin
         }
         private void ShowPlato()
         {
-            PlotPlatoWindow plotPlato = new PlotPlatoWindow();
+            PlotMainWindow.application = ExcelDnaUtil.Application as Excel.Application;
+            PlotMainWindow plotPlato = new PlotMainWindow();
             //System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(plotPlato);
+            plotPlato.GetRange += GetSelectRange;
             plotPlato.Show();
         }
 

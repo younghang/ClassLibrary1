@@ -22,32 +22,34 @@ namespace WindowsFormsApp1
     /// <summary>
     /// PlotPlatoForm.xaml 的交互逻辑
     /// </summary>
-    public partial class PlotPlatoWindow : Window
+    public partial class PlotMainWindow : Window
     {
         public DataRegionInfo regionInfo = new DataRegionInfo();
+        public static Excel.Application application;
         public DataRegionInfo GetRegionInformation()
         {
             return regionInfo;
         }
-        public PlotPlatoWindow()
+        public PlotMainWindow()
         {
             InitializeComponent();
             this.dataPanel.DataContext = regionInfo;
             var menuPlot = new List<SubItem>();
             UserControlPlato ucpPlato = new UserControlPlato();
-            ucpPlato.GetRegionInfos += GetRegionInformation;
-            UCPHistogram uCPHistogram = new UCPHistogram();
-            uCPHistogram.GetRegionInfos += GetRegionInformation;
+            ucpPlato.GetRegionInfos += GetRegionInformation; 
             menuPlot.Add(new SubItem("Plato", ucpPlato));
-            menuPlot.Add(new SubItem("Histogram", uCPHistogram));
+            
             menuPlot.Add(new SubItem("其他")); 
             var itemExcelPlot = new ItemMenu("Excel绘图", menuPlot, "plato.png");
 
             var menuDataAnalyse = new List<SubItem>();
-            menuDataAnalyse.Add(new SubItem("正态性检验"));
+            UCPHistogram uCPHistogram = new UCPHistogram();
+            uCPHistogram.GetRegionInfos += GetRegionInformation;
+            menuDataAnalyse.Add(new SubItem("Histogram", uCPHistogram));
             menuDataAnalyse.Add(new SubItem("其他"));
             var itemDataAnalyse = new ItemMenu("数据分析", menuDataAnalyse, "analyse.png");
             
+
             var menuFileProcess = new List<SubItem>();
             menuFileProcess.Add(new SubItem("文本导出", new UCPDefault()));
             menuFileProcess.Add(new SubItem("其他"));
@@ -60,6 +62,7 @@ namespace WindowsFormsApp1
 
         internal void SwitchScreen(object sender)
         {
+            SetSelectedRange();
             var screen = ((UserControl)sender);
 
             if (screen != null)
@@ -79,9 +82,12 @@ namespace WindowsFormsApp1
             e.Handled = true;
 
         }
+        public delegate Range GetRangeDelegate();
+        public event GetRangeDelegate GetRange;
         private Range rangeSelected;
-        public void SetSelectedRange(Range range)
+        public void SetSelectedRange()
         {
+            Range range = GetRange();
             if (range == null)
                 return;
             if (range.Count == 1)
@@ -92,8 +98,7 @@ namespace WindowsFormsApp1
             if (range.Areas.Count == 1)
             {
                 if (range.Columns.Count == 2)
-                {
-                    //这个杂碎从1开始，且不说这个，调试竟然显示不存在,什么几把玩意儿
+                { 
                     regionInfo.LableRegion = range.Columns[1].Address;
                     regionInfo.DataRegion = range.Columns[2].Address;
                 }
@@ -158,10 +163,10 @@ namespace WindowsFormsApp1
         }
         public string DataTxt
         {
-            get { return lableTxt; }
+            get { return dataTxt; }
             set
             {
-                lableTxt = value;
+                dataTxt = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("DataTxt"));
             }
         }

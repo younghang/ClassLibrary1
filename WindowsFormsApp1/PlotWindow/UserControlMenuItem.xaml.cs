@@ -26,12 +26,12 @@ namespace WindowsFormsApp1
     }
     public partial class UserControlMenuItem : UserControl
     {
-        PlotPlatoWindow _context;
+        PlotMainWindow _context;
         public UserControlMenuItem()
         {
             InitializeComponent();
         }
-        public UserControlMenuItem(ItemMenu itemMenu, PlotPlatoWindow context)
+        public UserControlMenuItem(ItemMenu itemMenu, PlotMainWindow context)
         {
             InitializeComponent();
             _context = context;
@@ -44,6 +44,11 @@ namespace WindowsFormsApp1
         private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SubItem selectedItem =(SubItem)((ListView)sender).SelectedItem;
+            if(selectedItem.Name== "Histogram")
+            {
+                this._context.regionInfo.DataTxt = "先不管";
+                this._context.regionInfo.LableTxt = "Data";
+            }
             _context.SwitchScreen(selectedItem.Screen);         
         }
     }
@@ -61,7 +66,7 @@ namespace WindowsFormsApp1
         public List<SubItem> SubItems { get; private set; }
  
     }
-    public class SubItem
+    public class SubItem 
     {
         public SubItem(string name, UserControl screen = null)
         {
@@ -69,10 +74,13 @@ namespace WindowsFormsApp1
             Screen = screen;
         }
         public string Name { get; private set; }
-        public UserControl Screen { get; private set; }        
+        public UserControl Screen { get; private set; }
+
+ 
     }
-    
-    public class MenuIconConVerter : IValueConverter
+ 
+
+public class MenuIconConVerter : IValueConverter
     {
         BitmapImage LoadImage(string path)
         {

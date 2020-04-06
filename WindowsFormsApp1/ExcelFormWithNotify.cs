@@ -106,7 +106,7 @@ namespace WindowsFormsApp1
 
         private void buttonTest_Click(object sender, EventArgs e)
         {
-            PlotPlatoWindow plotPlato = new PlotPlatoWindow();
+            PlotMainWindow plotPlato = new PlotMainWindow();
             System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(plotPlato);
             plotPlato.Show();
         }
@@ -130,7 +130,7 @@ namespace WindowsFormsApp1
 
         private void button2_Click(object sender, EventArgs e)
         {
-           MessageBox.Show( GetGaussianCumulativeDistributionFunction(0).ToString());
+           MessageBox.Show( GetGaussianCumulativeDistributionFunction(3).ToString());
         }
     }
 }
