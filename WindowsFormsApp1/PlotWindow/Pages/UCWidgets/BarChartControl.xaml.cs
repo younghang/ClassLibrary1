@@ -155,11 +155,11 @@ namespace WindowsFormsApp1.PlotWindow.Pages.UCWidgets
                     stackPanel.Orientation = Orientation.Vertical;
 
                     var tbl = new TextBlock();
-                    tbl.Height = 15;
+                    tbl.Height = 12;
                     //tbl.Margin = new Thickness(0, 0, 0, 5);
-                    tbl.Text = data.Value.ToString();
+                    tbl.Text = data.Value.ToString("f1");
                     tbl.Foreground = axisXModel.ForeGround;
-                    tbl.HorizontalAlignment = HorizontalAlignment.Center;
+                    tbl.HorizontalAlignment = HorizontalAlignment.Left;
                     stackPanel.Children.Add(tbl);
 
                     var rectangle = new Rectangle();

@@ -71,6 +71,7 @@ namespace YHExcelAddin
         public static AddInForm addinForm;
         public static DyeCellForm dyeForm;
         public static CalculatorForm clcForm;
+        public static PlotFormSetup plotFormSetup;
         public static void ShowAddInForm(string tag)
         {
             if (addinForm==null || addinForm.IsDisposed)
@@ -139,11 +140,13 @@ namespace YHExcelAddin
         }
         private void ShowPlato()
         {
-            PlotMainWindow.application = ExcelDnaUtil.Application as Excel.Application;
-            PlotMainWindow plotPlato = new PlotMainWindow();
-            //System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(plotPlato);
-            plotPlato.GetRange += GetSelectRange;
-            plotPlato.Show();
+            PlotMainWindow.application = ExcelDnaUtil.Application as Microsoft.Office.Interop.Excel.Application;
+            PlotMainWindow plotPlato = new PlotMainWindow();           
+            plotPlato.GetRange += RibbonUI.GetSelectRange;
+            System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(plotPlato);
+            //plotPlato.Show();
+            PlotFormSetup.LoadWindow(plotPlato);
+
         }
 
 

@@ -69,29 +69,57 @@ namespace WindowsFormsApp1.PlotWindow
             length = Math.Min(line, length);
         
             for (int i = 0; i < length; i++)
-            { 
-              selectDatas.Add(range1.Cells[i + 1].FormulaR1C1Local.ToString());          
+            {
+                string s = range1.Cells[i + 1].FormulaR1C1Local.ToString();
+                if(s!="")
+                    selectDatas.Add(s);          
             }
             return selectDatas;           
         }
-        public void SetData()
-        {
-
+        public bool SetData()
+        { 
             standard_deviation=0;
             mean = 0;
             sum = 0;
             square_sum = 0;
+            MaxNum = -10000000;
+            MinNum = 10000000;
+            try { 
             UL = double.Parse(dataUpperLimits.Text) ;
-            LL = double.Parse(dataLowerLimits.Text);
+            LL = double.Parse(dataLowerLimits.Text);}
+            catch(Exception)
+            {
+                dataUpperLimits.Text = "1000";
+                dataLowerLimits.Text = "0";
+            }
+            if(UL<LL)
+            {
+                UL = 1000;
+                LL = 0;
+            }
+            List<string> data=new List<string>();
+            if (PlotMainWindow.application==null)
+            {
+                try
+                {
+                    string SettingFilePath = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+                    data.AddRange(File.ReadAllLines(SettingFilePath + "/data.txt"));
+                }
+                catch(Exception)
+                {
+                    MessageBox.Show("没有Excel,也没有data.txt文件");
+                }
 
-            //var data= File.ReadAllLines("./data.txt");
-            var data = GetDataFromRange();
+            }else
+            {
+                data = GetDataFromRange();
+            }
+            
             if (data.Count == 0)
             {
                 this.txtInfo.Text = "无数据";
-                return;
+                return false;
             }
-
             groupCount = (int)slider.Value;
             rankValue = new List<double>();
             var c = from d in data 
@@ -101,6 +129,7 @@ namespace WindowsFormsApp1.PlotWindow
                     select dd;
             originalData = c.ToList();
             SortData();
+            return true;
         }
         int currentRank = 0;
         double currentRef = 0;
@@ -115,10 +144,11 @@ namespace WindowsFormsApp1.PlotWindow
                 this.percent = percent;
             }
         }
-        List<HisData> datas = new List<HisData>();
+        List<HisData> datas= new List<HisData>();
         private static bool Computing = false;
         private void SortData()
         {
+            datas.Clear();
             currentRank = -1;
             currentRef = MinNum;
             rankValue.Add(currentRef);
@@ -150,15 +180,7 @@ namespace WindowsFormsApp1.PlotWindow
                 }));
              
             })).Start();
-           
-
-           
-            //string s = "";
-            //foreach(var i in temp)
-            //{
-            //    s += i.value+"    " + i.percent+"\n";
-            //}
-            //File.WriteAllText("result.txt", s);
+    
         }
         private int GetRank(double d)
         {         
@@ -252,8 +274,7 @@ namespace WindowsFormsApp1.PlotWindow
             int n = originalData.Count;
             double cumulateDensity = 0;
             for (int i=0;i<n;i++)
-            { 
-
+            {  
                 cumulateDensity =1.0*(i+1)/n;
                 double normalizeValue = (originalData[i] - this.mean) / this.standard_deviation;
                 double std_cd = GetGaussianCumulativeDistributionFunction(normalizeValue);
@@ -271,11 +292,15 @@ namespace WindowsFormsApp1.PlotWindow
         List<AxisYDataModel> dataY;
         private void btnOK_Click(object sender, RoutedEventArgs e)
         {
-            SetData();
+            if (!SetData())
+            {
+                return;
+            }
             axisX = new AxisXModel();
             axisX.Height = 20;
             axisX.ForeGround = Brushes.White;
-            dataX = new List<AxisXDataModel>();            
+            dataX = new List<AxisXDataModel>();
+            //MessageBox.Show(datas.Count.ToString());
             foreach (var i in datas)
             {
                 AxisXDataModel a = new AxisXDataModel();
@@ -300,7 +325,7 @@ namespace WindowsFormsApp1.PlotWindow
                 a.Value = (i * MaxY / MaxLabelCount);
                 dataY.Add(a);
             }
-            axisY.Titles = dataY;
+            axisY.Titles = dataY;            
             this.barChart.DrawData(axisX, axisY);
             //this.barChart.Dispatcher.Invoke((Action)delegate ()  {
             //    this.barChart.DrawData(axisX, axisY); 

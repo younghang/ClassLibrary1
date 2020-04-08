@@ -10,7 +10,7 @@
 	ResizeMode="NoResize" 
 	AllowsTransparency="True"
 	WindowStartupLocation="CenterScreen" 
-        BorderThickness="0,0,20,20"
+        BorderThickness="0,0,20,20" Topmost="True" Title="PlotWindow"
        >
     <Window.Effect>
         <DropShadowEffect
@@ -105,7 +105,7 @@
                 <StackPanel Orientation="Horizontal" x:Name="dataPanel" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext=""  Width="{Binding Width, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
                     <TextBlock  TextWrapping="Wrap" TextOptions.TextFormattingMode="Display"  Grid.Column="0"  HorizontalAlignment="Left" VerticalAlignment="Center" Width="60"   Margin="20,7,0,7" Text="数据名称" FontWeight="Bold" />
 
-                    <TextBox x:Name="txtTitle" Width="100" Padding="5,0" Grid.Column="0" Style="{DynamicResource SimpleTextBox}" Text="不良品分布"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="7,0,0,0" FontWeight="Bold" Foreground="#FF8F8F8F" SelectionBrush="White"  >
+                    <TextBox x:Name="txtTitle" Width="100" Padding="5,0" Grid.Column="0" Style="{DynamicResource SimpleTextBox}" Text="不良品分布"  HorizontalAlignment="Left" VerticalAlignment="Center" Margin="7,0,0,0" FontWeight="Bold" Foreground="#FF8F8F8F" SelectionBrush="White" PreviewKeyDown="txtTitle_PreviewKeyDown"  >
                         <TextBox.Background>
                             <SolidColorBrush Color="#FDFFFFFF" Opacity="0.8"/>
                         </TextBox.Background>

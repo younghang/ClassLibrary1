@@ -43,13 +43,18 @@ namespace WindowsFormsApp1
 
         private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SubItem selectedItem =(SubItem)((ListView)sender).SelectedItem;
-            if(selectedItem.Name== "Histogram")
+           
+        }
+
+        private void ListViewMenu_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            SubItem selectedItem = (SubItem)((ListView)sender).SelectedItem;
+            if (selectedItem.Name == "Histogram")
             {
                 this._context.regionInfo.DataTxt = "先不管";
                 this._context.regionInfo.LableTxt = "Data";
             }
-            _context.SwitchScreen(selectedItem.Screen);         
+            _context.SwitchScreen(selectedItem.Screen);
         }
     }
     public class ItemMenu

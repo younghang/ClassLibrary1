@@ -62,6 +62,7 @@ namespace WindowsFormsApp1
 
         internal void SwitchScreen(object sender)
         {
+            if(PlotMainWindow.application!=null)
             SetSelectedRange();
             var screen = ((UserControl)sender);
 
@@ -125,6 +126,11 @@ namespace WindowsFormsApp1
 
                 }
             }
+        }
+
+        private void txtTitle_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+
         }
     }
     public class DataRegionInfo : INotifyPropertyChanged
