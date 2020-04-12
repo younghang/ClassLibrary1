@@ -197,7 +197,7 @@
 	 它使用 Simpler ExpanderToggleButton。它用来设置要扩展的 ContentPresenter 的可见性
 	 限制: Simple Expander 只能向下扩展 -->
     <Style x:Key="SimpleExpander" TargetType="{x:Type Expander}">
-        <Setter Property="Background" Value="{DynamicResource LightBrush}"/>
+        <!--<Setter Property="Background" Value="{DynamicResource LightBrush}"/>-->
         <!--<Setter Property="BorderBrush" Value="{DynamicResource NormalBorderBrush}"/>-->
         <Setter Property="Template">
             <Setter.Value>
@@ -252,22 +252,22 @@
             </Grid>
             </StackPanel>
         <ControlTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="true">
+            <!--<Trigger Property="IsMouseOver" Value="true">
                 <Setter Property="Fill" Value="{DynamicResource MouseOverBrush}" TargetName="Rectangle"/>
-            </Trigger>
-            <Trigger Property="IsPressed" Value="true">
+            </Trigger>-->
+            <!--<Trigger Property="IsPressed" Value="true">
                 <Setter Property="Fill" Value="{DynamicResource PressedBrush}" TargetName="Rectangle"/>
             </Trigger>
             <Trigger Property="IsChecked" Value="true">
                 <Setter Property="Visibility" Value="Visible" TargetName="Down_Arrow"/>
                 <Setter Property="Visibility" Value="Collapsed" TargetName="Up_Arrow"/>
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
+            </Trigger>-->
+            <!--<Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Fill" Value="{DynamicResource DisabledBackgroundBrush}" TargetName="Rectangle"/>
                 <Setter Property="Stroke" Value="{DynamicResource DisabledBorderBrush}" TargetName="Rectangle"/>
                 <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
                 <Setter Property="Fill" Value="{DynamicResource DisabledForegroundBrush}" TargetName="Up_Arrow"/>
-            </Trigger>
+            </Trigger>-->
         </ControlTemplate.Triggers>
     </ControlTemplate>
 

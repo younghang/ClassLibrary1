@@ -6,7 +6,21 @@
              xmlns:local="clr-namespace:WindowsFormsApp1.PlotWindow.Pages.UCWidgets"
              mc:Ignorable="d" 
              d:DesignHeight="250" d:DesignWidth="380"  Loaded="BarChartControl_OnLoaded">
-    <Grid Width="380" Height="250">
+    <Grid Width="380" Height="250" x:Name="gridMain">
+        <Grid.ContextMenu>
+            <ContextMenu Name="cm" StaysOpen="true">
+                <MenuItem Name="cmSaveAsImage" IsEnabled="True" Click="cmSaveAsImage_Click" Header="Save As Image"/>
+                <MenuItem Name="cmOpenFolder" IsEnabled="True"  Click="cmOpenFolder_Click" Header="Open Containing Folder"/>
+
+                <Separator/>
+                <MenuItem Header="Data Label">
+                    <MenuItem x:Name="cmDisplayDataLabel" Click="cmDisplayDataLabel_Click" IsEnabled="False" Header="Display"/>
+                    <MenuItem Name="cmHideDataLabel" Click="cmHideDataLabel_Click" IsEnabled="True" Header="Hide"/>
+                </MenuItem>
+            </ContextMenu>
+ 
+
+        </Grid.ContextMenu>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>

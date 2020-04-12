@@ -194,12 +194,14 @@ namespace CalculatorDll.Calculator.UIController
 			//				//显示图片
 			//				graphics.DrawImage(bmp,new Rectangle(0,0,this.ClientRectangle.Width,this.ClientRectangle.Height));
 			//			}
+
+
 			if (!Controls.Contains(mchart))
 			{
+				mchart.Dock = System.Windows.Forms.DockStyle.Fill;
 				Controls.Add(mchart);
 			}
-			mchart.BackImageAlignment = ChartImageAlignmentStyle.Center;
-			mchart.SetBounds(20, 30, 350, 350);
+			mchart.BackImageAlignment = ChartImageAlignmentStyle.Center; 
 		}
 
 		private void FuncFigure_Load(object sender, EventArgs e)

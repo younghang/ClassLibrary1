@@ -9,8 +9,11 @@ using Excel = Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Interop.Excel;
 using System.Collections.Generic;
 using System.Drawing;
-using YHExcelAddin.Calculator.UIController;
 using WindowsFormsApp1;
+using System.Windows.Interop;
+using WPFWindow=System.Windows;
+using System.Windows.Forms.Integration;
+using System.Threading;
 
 namespace YHExcelAddin
 {
@@ -70,6 +73,7 @@ namespace YHExcelAddin
         }
         public static AddInForm addinForm;
         public static DyeCellForm dyeForm;
+        public static SettingForm settingForm;
         public static CalculatorForm clcForm;
         public static PlotFormSetup plotFormSetup;
         public static void ShowAddInForm(string tag)
@@ -127,9 +131,19 @@ namespace YHExcelAddin
                     ShowPlato();break;
                 case "ShowDanmu":
                     ShowDanmu();break;
+                case "Settings":
+                    if (settingForm == null || settingForm.IsDisposed)
+                    {
+                        settingForm = new SettingForm();
+                    }
+                    settingForm.Show();
+                    settingForm.Focus();
+            
+                    break;
                 default:
                     MessageBox.Show("Hello:" + control.Id);
                     break;
+
             }
            
         }
@@ -138,18 +152,43 @@ namespace YHExcelAddin
             DanmukuTest plot = new DanmukuTest();
             plot.Show();
         }
+        [DllImport("User32.dll")]
+        public static extern IntPtr SetFocus(IntPtr hWnd);
+        IntPtr GetHwnd(WPFWindow.Window popup)
+        {
+            return new WindowInteropHelper(popup).Handle; 
+        }
         private void ShowPlato()
         {
-            PlotMainWindow.application = ExcelDnaUtil.Application as Microsoft.Office.Interop.Excel.Application;
-            PlotMainWindow plotPlato = new PlotMainWindow();           
-            plotPlato.GetRange += RibbonUI.GetSelectRange;
-            System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(plotPlato);
+            bool.TryParse(FileSettings.GetSettingItem(SettingForm.PLOT_WINDOW_IN_THREAD), out bool runInThread);
+            if (runInThread)
+            {
+                Thread t = new Thread(new ThreadStart(() =>
+                {
+                    PlotMainWindow.application = ExcelDnaUtil.Application as Microsoft.Office.Interop.Excel.Application;
+                    PlotMainWindow plotPlato = new PlotMainWindow();
+                    plotPlato.GetRange += RibbonUI.GetSelectRange;                   
+                    plotPlato.Show();
+                    System.Windows.Threading.Dispatcher.Run();
+                }));
+                t.SetApartmentState(ApartmentState.STA);
+                // Make the thread a background thread
+                t.IsBackground = true;
+                // Start the thread 
+                t.Start();
+            }else
+            {
+                PlotMainWindow.application = ExcelDnaUtil.Application as Microsoft.Office.Interop.Excel.Application;
+                PlotMainWindow plotPlato = new PlotMainWindow();
+                plotPlato.GetRange += RibbonUI.GetSelectRange;
+                plotPlato.ShowDialog();
+            }
+            //System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(plotPlato);
             //plotPlato.Show();
-            PlotFormSetup.LoadWindow(plotPlato);
-
+            //IntPtr handle = GetHwnd(plotPlato);
+            //SetFocus(handle); 
+            //PlotFormSetup.LoadWindow(plotPlato);  
         }
-
-
         public void MarkSame()
         {
             Excel.Application app = ExcelDnaUtil.Application as Excel.Application;

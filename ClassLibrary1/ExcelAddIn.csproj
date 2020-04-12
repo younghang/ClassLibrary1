@@ -80,41 +80,6 @@
     <Compile Include="AddInForm.Designer.cs">
       <DependentUpon>AddInForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Calculator\Calculator\Calculator.cs" />
-    <Compile Include="Calculator\Calculator\CalError.cs" />
-    <Compile Include="Calculator\Calculator\CalString.cs" />
-    <Compile Include="Calculator\Calculator\MetaData.cs" />
-    <Compile Include="Calculator\Calculator\FuncNames.cs" />
-    <Compile Include="Calculator\Calculator\Option.cs" />
-    <Compile Include="Calculator\Calculator\SortBlock2G.cs" />
-    <Compile Include="Calculator\Calculator\Stack.cs" />
-    <Compile Include="Calculator\Calculator\StringCalculatorProvided.cs" />
-    <Compile Include="Calculator\Function\FuncCal.cs" />
-    <Compile Include="Calculator\Function\FuncString.cs" />
-    <Compile Include="Calculator\UIController\Command.cs" />
-    <Compile Include="Calculator\Calculator\Data\BlockData.cs" />
-    <Compile Include="Calculator\Calculator\Data\CalData.cs" />
-    <Compile Include="Calculator\Calculator\Data\ExpData.cs" />
-    <Compile Include="Calculator\Calculator\Data\FuncData.cs" />
-    <Compile Include="Calculator\Calculator\Data\Matric.cs" />
-    <Compile Include="Calculator\UIController\Data\BlockData.cs" />
-    <Compile Include="Calculator\UIController\Data\CalData.cs" />
-    <Compile Include="Calculator\UIController\Data\ExpData.cs" />
-    <Compile Include="Calculator\UIController\Data\FuncData.cs" />
-    <Compile Include="Calculator\UIController\Data\Matric.cs" />
-    <Compile Include="Calculator\UIController\DealAssignment.cs" />
-    <Compile Include="Calculator\UIController\FuncFigure.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Calculator\UIController\FuncFigure.Designer.cs">
-      <DependentUpon>FuncFigure.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Calculator\UIController\MyChart.cs" />
-    <Compile Include="Calculator\Calculator\Data\TempData.cs" />
-    <Compile Include="Calculator\Calculator\Data\TempDataCollection.cs" />
-    <Compile Include="Calculator\UIController\TempData.cs" />
-    <Compile Include="Calculator\UIController\TempDataCollection.cs" />
-    <Compile Include="Calculator\UIController\UIController.cs" />
     <Compile Include="ComAddInConnection.cs" />
     <Compile Include="CTPControl.cs">
       <SubType>UserControl</SubType>
@@ -168,13 +133,16 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RibbonUI.cs" />
+    <Compile Include="SettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SettingForm.Designer.cs">
+      <DependentUpon>SettingForm.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AddInForm.resx">
       <DependentUpon>AddInForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Calculator\UIController\FuncFigure.resx">
-      <DependentUpon>FuncFigure.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CTPControl.resx">
       <DependentUpon>CTPControl.cs</DependentUpon>
@@ -194,6 +162,9 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SettingForm.resx">
+      <DependentUpon>SettingForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -246,6 +217,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CalculatorDll\CalculatorDll.csproj">
+      <Project>{504f7da7-0b18-41f7-86c5-ce231001f735}</Project>
+      <Name>CalculatorDll</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WindowsFormsApp1\WindowsFormsApp1.csproj">
       <Project>{d898f77b-078c-4b7f-99c4-652beebf06d0}</Project>
       <Name>WindowsFormsApp1</Name>
@@ -254,6 +229,9 @@
       <Project>{33020cc6-4125-471d-9d4f-8fb99d5ec4c7}</Project>
       <Name>BilibiliStyleDanmu</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="image\setting.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\ExcelDna.AddIn.1.0.0\build\ExcelDna.AddIn.targets" Condition="Exists('..\packages\ExcelDna.AddIn.1.0.0\build\ExcelDna.AddIn.targets')" />

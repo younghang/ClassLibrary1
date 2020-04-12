@@ -87,6 +87,7 @@ namespace CalculatorDll.Calculator.UIController
 			double xa = xstart[0];
 			double xb = xstart[1];
 			double x = xa;
+			FuncFigure ff = new FuncFigure();
 			MyChart mc = new MyChart();
 			mc.SetChartArea();
 			for (int i = 0; i < points; i++)
@@ -102,7 +103,7 @@ namespace CalculatorDll.Calculator.UIController
 			}
 			//			mc.CreateSeriesDatas(new double[]{1,2,3,4,5,6,7,8},new double[]{1,-1,1,-1,1,-1,1,-1});
 			mc.SetSeries();
-			FuncFigure ff = new FuncFigure();
+			
 			ff.AddChart(mc.GetChart());
 			ff.ShowDialog();
 

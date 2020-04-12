@@ -10,7 +10,7 @@
 	ResizeMode="NoResize" 
 	AllowsTransparency="True"
 	WindowStartupLocation="CenterScreen" 
-        BorderThickness="0,0,20,20" Topmost="True" Title="PlotWindow"
+        BorderThickness="0,0,20,20" Topmost="True" Title="PlotWindow" Activated="main_Activated"
        >
     <Window.Effect>
         <DropShadowEffect
@@ -40,10 +40,10 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-            <ResourceDictionary Source="PlotWindow/ControlStyle.xaml"/>            
-        </ResourceDictionary.MergedDictionaries>
-   
-            </ResourceDictionary>
+                <ResourceDictionary Source="PlotWindow/ControlStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
     </Window.Resources>
     <!--<Window.Effect>
         -->
@@ -73,10 +73,13 @@
                             Name="dragPanel">
                     <TextBlock
                         HorizontalAlignment="Center"
-                        Foreground="#FFCBBEBE"
 					FontSize="14"
                         Margin="10,5"
-                        Text="柏拉图" FontWeight="Bold"/>
+                        Text="柏拉图" FontWeight="Bold">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlLightLightColorKey}}"/>
+                        </TextBlock.Foreground>
+                    </TextBlock>
                     <Button
 					x:Name="btn_Close"
                     Click="btnClose"
@@ -100,7 +103,7 @@
 	 
 				Width="580"
 				BorderThickness="0,0,0,1"
-				BorderBrush="#FFC5B7B7"  
+				BorderBrush="{Binding ElementName=lableRegion,Path= BorderBrush}"
                >
                 <StackPanel Orientation="Horizontal" x:Name="dataPanel" VerticalAlignment="Center" HorizontalAlignment="Left" DataContext=""  Width="{Binding Width, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
                     <TextBlock  TextWrapping="Wrap" TextOptions.TextFormattingMode="Display"  Grid.Column="0"  HorizontalAlignment="Left" VerticalAlignment="Center" Width="60"   Margin="20,7,0,7" Text="数据名称" FontWeight="Bold" />
@@ -113,14 +116,14 @@
                     <TextBlock x:Name="txtLable" TextWrapping="Wrap" TextOptions.TextFormattingMode="Display"  Grid.Column="0"  HorizontalAlignment="Left" VerticalAlignment="Center" Width="60"   Margin="120,7,0,7" Text="{Binding LableTxt}" FontWeight="Bold" Height="20" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" LineStackingStrategy="BlockLineHeight" />
                     <TextBox x:Name="lableRegion" Width="50"  HorizontalAlignment="Left" Height="20" Text="{Binding LableRegion}" BorderBrush="#FF9FA6A0" Foreground="#FF763A3A" Padding="1,1,0,0" FontSize="10" VerticalAlignment="Center" TextDecorations="{x:Null}" FontWeight="Bold" Margin="0,5" >
                         <TextBox.Background>
-                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                         </TextBox.Background>
                     </TextBox>
-                    <Rectangle x:Name="seperator" Grid.Column="2" Width="1" Height="20" Fill="#FFB2B2B2" Margin="20,0,0,0"/>
+                    <Rectangle x:Name="seperator"  Grid.Column="2" Width="1" Height="20" Fill="{Binding ElementName=lableRegion,Path= BorderBrush}" Margin="20,0,0,0"/>
                     <TextBlock x:Name="txtData" TextOptions.TextFormattingMode="Display"  TextWrapping="Wrap" HorizontalAlignment="Left" Grid.Column="4" VerticalAlignment="Center" Width="60"   Margin="15,7,0,7" Text="{Binding DataTxt}" FontWeight="Bold" Height="20" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden" LineStackingStrategy="BlockLineHeight" />
                     <TextBox x:Name="dataRegion"  Width="50" Grid.Column="5" HorizontalAlignment="Left" Height="20" Text="{Binding DataRegion}" BorderBrush="#FF9FA6A0" Foreground="#FF763A3A" Padding="1,1,0,0" FontSize="10" VerticalAlignment="Center" TextDecorations="{x:Null}" FontWeight="Bold" Margin="0,5" >
                         <TextBox.Background>
-                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
+                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                         </TextBox.Background>
                     </TextBox>
                     <!--<TextBlock Name="txtRelativePoint" TextWrapping="Wrap" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Width="300" MinWidth="150" Margin="20,0" Text="{Binding MystringProperty, Source={StaticResource stRelativePoint}, FallbackValue=fail binding, TargetNullValue=nll}" />-->
@@ -129,7 +132,7 @@
 
             </Border>
 
-            <Grid Canvas.Top="60" Width="580" Height="320" Background="#FFD8D3D3">
+            <Grid Canvas.Top="60" Width="580" Height="320" Background="#FFD8D3D3" x:Name="contain">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
@@ -145,7 +148,7 @@
                     <!--VerticalAlignment="Top"-->
                 </ScrollViewer>
 
-                <Rectangle  VerticalAlignment="Top"  Grid.Column="1" Width="1" Height="320" Fill="#FFB2B2B2" Margin="0,0,0,0"/>
+                <Rectangle  VerticalAlignment="Top"  Grid.Column="1" Width="1" Height="320" Fill="{Binding ElementName=lableRegion,Path= BorderBrush}" Margin="0,0,0,0"/>
                 <StackPanel x:Name="StackPanelMain" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Stretch" Margin="0,1">
 
                 </StackPanel>

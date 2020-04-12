@@ -29,11 +29,12 @@ namespace YHExcelAddin
             {
                 new Thread(
                     new ThreadStart(delegate { 
-                        win.Loaded += delegate
+                        win.Closed += delegate
                         {
                             plot.Invoke(new Action(()=> {
+                                //plot.WindowState = System.Windows.Forms.FormWindowState.Minimized;
                                 plot.Close();
-                                plot.Dispose(); 
+                                plot.Dispose();
                             }));
                         }; 
                     })
@@ -47,7 +48,7 @@ namespace YHExcelAddin
         {
             PlotMainWindow.application = ExcelDnaUtil.Application as Microsoft.Office.Interop.Excel.Application;
             PlotMainWindow plotPlato = new PlotMainWindow();
-            System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(plotPlato);
+            //System.Windows.Forms.Integration.ElementHost.EnableModelessKeyboardInterop(plotPlato);
             plotPlato.GetRange += RibbonUI.GetSelectRange;
             plotPlato.Show();
         }

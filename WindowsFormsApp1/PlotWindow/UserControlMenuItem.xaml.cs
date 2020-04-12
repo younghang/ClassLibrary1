@@ -20,9 +20,14 @@ namespace WindowsFormsApp1
     /// UserControlMenuItem.xaml 的交互逻辑
     /// </summary>
     public delegate DataRegionInfo GetRegionInfo();
+    public delegate PlotMainWindow GetContext();
     public interface IGetRegionInfo
     {
         event GetRegionInfo GetRegionInfos;
+    }
+    public interface IGetContext
+    {
+        event GetContext GetWindowContext;
     }
     public partial class UserControlMenuItem : UserControl
     {
@@ -34,11 +39,16 @@ namespace WindowsFormsApp1
         public UserControlMenuItem(ItemMenu itemMenu, PlotMainWindow context)
         {
             InitializeComponent();
-            _context = context;
+            _context = context; 
             ExpanderMenu.Visibility = itemMenu.SubItems == null ? Visibility.Collapsed : Visibility.Visible;
-            //ListViewItemMenu.Visibility = itemMenu.SubItems == null ? Visibility.Visible : Visibility.Collapsed;
-
+            //ListViewItemMenu.Visibility = itemMenu.SubItems == null ? Visibility.Visible : Visibility.Collapsed; 
             this.DataContext = itemMenu;
+        }
+        public void UpdateColor()
+        { 
+            this.ExpanderMenu.Background = _context.lableRegion.BorderBrush;
+            this.ListViewMenu.Background = _context.lableRegion.BorderBrush.Clone();
+            this.ListViewMenu.Background.Opacity = 0.3;
         }
 
         private void ListViewMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)

@@ -15,10 +15,10 @@
           <button id='GetMaxLineButton' label='行数' image='line.png'  size='normal' onAction='button_Click' screentip="获取当前工作表最大行数" supertip="可能会多一点"/>
           <button id='markSame' label='标记重复' screentip="可以标记某个选中区域里面重复的单元格" supertip="例如 1 2 1后面一个1所在单元格背景会被标记为黄色"  size='normal' onAction='button_Click' />
           <button id='FillEmpty' label='填充空白' screentip="可以填充某个选中区域里面的空白单元格" supertip="先框选一个区域，然后按住Ctrl点选一个单元格，那么前面选中区域中空白的就会被后面点选单元格所填充"  size='normal' onAction='button_Click' />
-          <separator id="separator3" />
-          <button id='Calculator' image='cal.png' label='计算器' screentip="可以进行科学计算的计算器" supertip="方便使用"  size='large' onAction='button_Click' />
         </group >
-        <group id='GraphGroup' label='绘图'>
+        <group id='GraphGroup' label='Functions &amp; Graph'>         
+          <button id='Calculator' image='cal.png' label='计算器' screentip="可以进行科学计算的计算器" supertip="方便使用"  size='large' onAction='button_Click' />
+          <separator id="separator3" />
           <button id='DrawPlatoGraph' onAction='button_Click' label='柏拉图' screentip='柏拉图' image='plato.png'  size='large'  />
           <button id='ShowDanmu' onAction='button_Click' label='测试通知' screentip='测试'   size='normal'  />
         </group >
@@ -34,6 +34,9 @@
             <menuSeparator id="MySeparator2" />
             <button id="btn_com2" label="COM2"   onAction='button_Click'  />
           </menu>
+           
+          <button id='Settings' label='设置' image='setting.png' size='large' onAction='button_Click' />
+          
           <!-- 使用RunTagMacro，可以调用vba中的函数,也可以调用XLL中的ExcelCommand -->
         </group >
         <group id='Game' label='其他'>
@@ -44,6 +47,7 @@
           </menu>          
         </group >
         <group id='About' label='About'>
+        
           <button id='ShowAbout' label='关于' image='yanzi.png' size='large' onAction='OnShowInfo' />
         </group >
       </tab>

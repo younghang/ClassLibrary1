@@ -12,8 +12,10 @@ namespace YHExcelAddin
         public static readonly string SettingFilePath = System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
         private static string ConfigureFileName = SettingFilePath + "/set.in";
         private static string CONFIGURE_TEXT = "";
-        public static void LoadConfigurations()
+        private static void LoadConfigurations()
         {
+            settingItems.Clear();
+            CONFIGURE_TEXT = "";
             if (File.Exists(ConfigureFileName))
             {
                 CONFIGURE_TEXT = File.ReadAllText(ConfigureFileName);
@@ -36,15 +38,17 @@ namespace YHExcelAddin
         }
         public static void SaveConfigurations()
         {
+            CONFIGURE_TEXT = "";
             foreach (var item in settingItems)
             {
-                CONFIGURE_TEXT += (item.Key + "=" + item.Value);
+                CONFIGURE_TEXT += (item.Key + "=" + item.Value+"\n");
             }
             File.WriteAllText(ConfigureFileName, CONFIGURE_TEXT);
         }
         public static string GetSettingItem(string key)
         {
-            if(settingItems.ContainsKey(key))
+            LoadConfigurations();
+            if (settingItems.ContainsKey(key))
             {
                 return settingItems[key];
             }
@@ -52,10 +56,16 @@ namespace YHExcelAddin
         }
         public static void SetSettingItem(string key,string value)
         {
+            LoadConfigurations();
             if (key != "" && !settingItems.ContainsKey(key))
             {
                 settingItems.Add(key, value);
+            } 
+            if(settingItems.ContainsKey(key))
+            {
+                settingItems[key] = value;
             }
+            SaveConfigurations();
         }
     }
 }

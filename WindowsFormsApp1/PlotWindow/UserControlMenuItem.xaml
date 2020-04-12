@@ -25,9 +25,9 @@
                   Header="{Binding Header}"  
                   IsExpanded="False"                 
                   Width="120" HorizontalAlignment="Center" 
-                  Background="#FFC3C1C1" Foreground="White"
-                   ExpandDirection="Down"     
-               
+                  Background="#FFC3C1C1" 
+                  Foreground="White"
+                   ExpandDirection="Down"                    
                   VerticalAlignment="Top"
                   >
             <ListView x:Name="ListViewMenu" ItemsSource="{Binding SubItems}" Foreground="White" ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="ListViewMenu_SelectionChanged" Background="#FFD6D6D6" MouseLeftButtonUp="ListViewMenu_MouseLeftButtonUp">

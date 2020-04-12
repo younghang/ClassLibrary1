@@ -4,6 +4,8 @@ using System.IO;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Runtime.InteropServices;
+using System.Threading;
+
 namespace WindowsFormsApp1
 {
     public partial class ExcelFormWithNotify : Form
@@ -130,7 +132,23 @@ namespace WindowsFormsApp1
 
         private void button2_Click(object sender, EventArgs e)
         {
-           MessageBox.Show( GetGaussianCumulativeDistributionFunction(3).ToString());
+            Thread t = new Thread(new ThreadStart(() =>
+            {
+                PlotMainWindow.application = null;
+                PlotMainWindow plotPlato = new PlotMainWindow(); 
+                plotPlato.Show();
+                System.Windows.Threading.Dispatcher.Run();
+            }));
+            t.SetApartmentState(ApartmentState.STA);
+            // Make the thread a background thread
+            t.IsBackground = true;
+            // Start the thread 
+            t.Start();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            new Form2().Show();
         }
     }
 }

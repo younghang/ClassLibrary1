@@ -298,7 +298,7 @@ namespace WindowsFormsApp1.PlotWindow
             }
             axisX = new AxisXModel();
             axisX.Height = 20;
-            axisX.ForeGround = Brushes.White;
+            axisX.ForeGround = Brushes.Black;
             dataX = new List<AxisXDataModel>();
             //MessageBox.Show(datas.Count.ToString());
             foreach (var i in datas)
@@ -326,7 +326,7 @@ namespace WindowsFormsApp1.PlotWindow
                 dataY.Add(a);
             }
             axisY.Titles = dataY;            
-            this.barChart.DrawData(axisX, axisY);
+            this.barChart.SetDrawData(axisX, axisY);
             //this.barChart.Dispatcher.Invoke((Action)delegate ()  {
             //    this.barChart.DrawData(axisX, axisY); 
             //}

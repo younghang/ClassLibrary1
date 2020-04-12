@@ -88,6 +88,12 @@
     <Compile Include="PlotWindow\Pages\UCWidgets\BarChartControl.xaml.cs">
       <DependentUpon>BarChartControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PlotWindow\Pages\UCWidgets\DrawingCanvas.cs" />
+    <Compile Include="PlotWindow\Pages\UCWidgets\DrawingLine.cs" />
+    <Compile Include="PlotWindow\Pages\UCWidgets\LineDatas.cs" />
+    <Compile Include="PlotWindow\Pages\UCPLineChart.xaml.cs">
+      <DependentUpon>UCPLineChart.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PlotWindow\Pages\UserControlDefault.xaml.cs">
       <DependentUpon>UserControlDefault.xaml</DependentUpon>
     </Compile>
@@ -98,6 +104,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PlotWindow\UserControlMenuItem.xaml.cs">
       <DependentUpon>UserControlMenuItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl1.xaml.cs">
+      <DependentUpon>UserControl1.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="ExcelFormWithNotify.resx">
       <DependentUpon>ExcelFormWithNotify.cs</DependentUpon>
@@ -166,6 +175,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PlotWindow\Pages\UCPLineChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PlotWindow\Pages\UserControlDefault.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -175,6 +188,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PlotWindow\UserControlMenuItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControl1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

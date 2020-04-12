@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -91,17 +92,20 @@ namespace WindowsFormsApp1.PlotWindow.Pages.UCWidgets
           
         }
  
-        public void DrawData(AxisXModel axisX,AxisYModel axisY)
+        public void SetDrawData(AxisXModel axisX,AxisYModel axisY)
         {
             this.AxisX = axisX;
             this.AxisY = axisY;
+            Update();
+        }
+        private void Update()
+        {
             BottomGrid.Height = AxisX.Height;
             LeftGrid.Width = AxisY.Width;
             this.BottomGrid.Children.Clear();
             this.BottomGrid.ColumnDefinitions.Clear();
             this.MainGridFrom0To1.Children.Clear();
-            MainGridFrom0To1.ColumnDefinitions.Clear();
-
+            MainGridFrom0To1.ColumnDefinitions.Clear(); 
             this.MainGridForRow1.Children.Clear();
             MainGridForRow1.RowDefinitions.Clear();
             this.LeftGrid.Children.Clear();
@@ -109,7 +113,7 @@ namespace WindowsFormsApp1.PlotWindow.Pages.UCWidgets
             SetYTitlesContent();
             SetXDatasContent(); 
         }
-
+        private bool showLabel = true;
         private void SetXDatasContent()
         {
             var axisXModel = AxisX;
@@ -139,13 +143,15 @@ namespace WindowsFormsApp1.PlotWindow.Pages.UCWidgets
                         Brushes.Black,
                         new NumberSubstitution(),
                         TextFormattingMode.Display);
-                    textblock.FontSize =(this.BottomGrid.ActualWidth / axisXModel.Datas.Count*0.8) / formattedText.Width * 6;
+                    double size=(this.BottomGrid.ActualWidth / axisXModel.Datas.Count*0.8) / formattedText.Width * 6;
+                    if (size > 12)
+                        size = 12;
+                    textblock.FontSize = size;
                     textblock.Foreground = axisXModel.ForeGround;
                     textblock.VerticalAlignment = VerticalAlignment.Top;
                     textblock.TextAlignment = TextAlignment.Center;
-                    textblock.HorizontalAlignment = HorizontalAlignment.Left;
-                    double textBlockWidth = data.LabelWidth;
-                    textblock.Width = data.LabelWidth;
+                    textblock.HorizontalAlignment = HorizontalAlignment.Left; 
+                    textblock.Width = BottomGrid.ActualWidth / axisXModel.Datas.Count*0.8;
                     //textblock.Margin = new Thickness(0, 5, -textBlockWidth / 2, 0);
                     Grid.SetColumn(textblock, index);
                     BottomGrid.Children.Add(textblock);
@@ -158,8 +164,9 @@ namespace WindowsFormsApp1.PlotWindow.Pages.UCWidgets
                     tbl.Height = 12;
                     //tbl.Margin = new Thickness(0, 0, 0, 5);
                     tbl.Text = data.Value.ToString("f1");
-                    tbl.Foreground = axisXModel.ForeGround;
+                    tbl.Foreground = Brushes.White;
                     tbl.HorizontalAlignment = HorizontalAlignment.Left;
+                    if(this.showLabel)
                     stackPanel.Children.Add(tbl);
 
                     var rectangle = new Rectangle();
@@ -186,7 +193,7 @@ namespace WindowsFormsApp1.PlotWindow.Pages.UCWidgets
                     stackPanel.Children.Add(rectangle);
                     //stackPanel.Margin = new Thickness(0, 0, -textBlockWidth / 2, 0);
                     stackPanel.VerticalAlignment = VerticalAlignment.Bottom;
-                    stackPanel.HorizontalAlignment = HorizontalAlignment.Right;
+                    stackPanel.HorizontalAlignment = HorizontalAlignment.Left;
                     Grid.SetColumn(stackPanel, index);
                     MainGridFrom0To1.Children.Add(stackPanel);
                     index++;
@@ -208,11 +215,12 @@ namespace WindowsFormsApp1.PlotWindow.Pages.UCWidgets
                 int index = 0;
                 foreach (var title in axisYModel.Titles)
                 {
-                    var textblock = new TextBlock();
-                    textblock.Text = title.Name;
+                    var textblock = new TextBlock();                    
                     textblock.Foreground = axisYModel.ForeGround;
                     textblock.HorizontalAlignment = HorizontalAlignment.Center;
                     textblock.Height = title.LabelHeight;
+                    textblock.Text = title.Name; 
+
                     if (index < gridRows)
                     {
                         textblock.VerticalAlignment = VerticalAlignment.Bottom;
@@ -262,6 +270,83 @@ namespace WindowsFormsApp1.PlotWindow.Pages.UCWidgets
             {
                 leftGrid.RowDefinitions.Add(new RowDefinition());
             }
+        }
+
+        private Microsoft.Win32.SaveFileDialog dlg;
+        private void cmSaveAsImage_Click(object sender, RoutedEventArgs e)
+        {
+            BitmapSource imageData = PlotMainWindow.CreateElementScreenshot(gridMain);
+            try
+            {
+                if (imageData == null)
+                {
+                    return;
+                }
+                dlg = new Microsoft.Win32.SaveFileDialog(); 
+                dlg.Filter = "PNG图片(*.png)|*.png|JPEG图片(*.jpg)|*.jpg|所有文件(*.*)|*.*";
+                var rst = dlg.ShowDialog();
+                if (rst == true)
+                {
+                    var fileName = dlg.FileName; 
+                    SaveImageToFile(imageData, fileName);                     
+                }
+            }
+            catch (Exception ex)
+            { 
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void SaveImageToFile(BitmapSource image, string filePath)
+        {
+            BitmapEncoder encoder = GetBitmapEncoder(filePath);
+            encoder.Frames.Add(BitmapFrame.Create(image));
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                encoder.Save(stream);
+            }
+        }
+
+        /// <summary>
+        /// 根据文件扩展名获取图片编码器
+        /// </summary>
+        /// <param name="filePath">文件路径</param>
+        /// <returns>图片编码器</returns>
+        private BitmapEncoder GetBitmapEncoder(string filePath)
+        {
+            var extName = System.IO.Path.GetExtension(filePath).ToLower();
+            if (extName.Equals(".png"))
+            {
+                return new PngBitmapEncoder();
+            }
+            else
+            {
+                return new JpegBitmapEncoder();
+            }
+        }
+
+        private void cmDisplayDataLabel_Click(object sender, RoutedEventArgs e)
+        {
+            //也可以用一个MenuItem 改变Header值实现
+            this.cmDisplayDataLabel.IsEnabled = false;
+            this.cmHideDataLabel.IsEnabled = true;
+            this.showLabel = true;
+            this.Update();
+        }
+
+        private void cmHideDataLabel_Click(object sender, RoutedEventArgs e)
+        {
+            this.cmHideDataLabel.IsEnabled = false;
+            this.cmDisplayDataLabel.IsEnabled = true;
+            this.showLabel = false;
+            this.Update();
+        }
+
+        private void cmOpenFolder_Click(object sender, RoutedEventArgs e)
+        {
+            string filePath=   System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            if (dlg != null) filePath =dlg.FileName.Substring(0, dlg.FileName.LastIndexOf('\\') + 1);
+            System.Diagnostics.Process.Start(filePath);
         }
     }
     public class AxisXModel

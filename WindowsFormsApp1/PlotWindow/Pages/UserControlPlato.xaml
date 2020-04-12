@@ -25,7 +25,7 @@
                     <GridViewColumn Header="是否显示" x:Name="Check" Width="100">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox  Content="{Binding Status}" IsChecked="{Binding IsShown, Mode=TwoWay}" />
+                                <CheckBox  Content="{Binding Status}"  IsChecked="{Binding IsShown, Mode=TwoWay}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

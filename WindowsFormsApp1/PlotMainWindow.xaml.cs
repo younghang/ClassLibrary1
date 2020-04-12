@@ -16,6 +16,9 @@ using WindowsFormsApp1.PlotWindow;
 using Microsoft.Office.Interop.Excel;
 using Excel = Microsoft.Office.Interop.Excel;
 using Window = System.Windows.Window;
+using System.Windows.Interop;
+using System.Runtime.InteropServices;
+using WindowsFormsApp1.PlotWindow.Pages.UCWidgets;
 
 namespace WindowsFormsApp1
 {
@@ -30,6 +33,15 @@ namespace WindowsFormsApp1
         {
             return regionInfo;
         }
+        public static BitmapSource CreateElementScreenshot(UIElement visual)
+        {
+            var renderSize = visual.RenderSize;            
+            RenderTargetBitmap bmp = new RenderTargetBitmap((int)renderSize.Width, (int)renderSize.Height, 96,96, PixelFormats.Default);
+            bmp.Render(visual);
+
+            return bmp;
+        } 
+
         public PlotMainWindow()
         {
             InitializeComponent();
@@ -45,13 +57,17 @@ namespace WindowsFormsApp1
             var menuDataAnalyse = new List<SubItem>();
             UCPHistogram uCPHistogram = new UCPHistogram();
             uCPHistogram.GetRegionInfos += GetRegionInformation;
-            menuDataAnalyse.Add(new SubItem("Histogram", uCPHistogram));
-            menuDataAnalyse.Add(new SubItem("其他"));
-            var itemDataAnalyse = new ItemMenu("数据分析", menuDataAnalyse, "analyse.png");
-            
 
+            //UCPLineChart uCPLineChart = new UCPLineChart();
+
+            menuDataAnalyse.Add(new SubItem("Histogram", uCPHistogram));
+            menuDataAnalyse.Add(new SubItem("Lines"));
+            var itemDataAnalyse = new ItemMenu("数据分析", menuDataAnalyse, "analyse.png");
+
+            UCPDefault uCPDefault = new UCPDefault();
+            uCPDefault.GetWindowContext+= delegate { return this; };
             var menuFileProcess = new List<SubItem>();
-            menuFileProcess.Add(new SubItem("文本导出", new UCPDefault()));
+            menuFileProcess.Add(new SubItem("文本导出", uCPDefault));
             menuFileProcess.Add(new SubItem("其他"));
             var itemFileProcess = new ItemMenu("数据处理",menuFileProcess,"file.png");
             
@@ -59,6 +75,14 @@ namespace WindowsFormsApp1
             Menu.Children.Add(new UserControlMenuItem(itemExcelPlot, this));
             Menu.Children.Add(new UserControlMenuItem(itemDataAnalyse, this));
         }
+        public void UpdateMenuColor()
+        {
+            foreach(var item in Menu.Children )
+            {
+                (item as UserControlMenuItem).UpdateColor();
+            }
+        }
+ 
 
         internal void SwitchScreen(object sender)
         {
@@ -132,6 +156,15 @@ namespace WindowsFormsApp1
         {
 
         }
+
+        private void main_Activated(object sender, EventArgs e)
+        {
+            IntPtr handle2 = new WindowInteropHelper(this).Handle; ;
+            SetForegroundWindow(handle2);
+        }
+        [DllImport("USER32.DLL")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
     }
     public class DataRegionInfo : INotifyPropertyChanged
     {

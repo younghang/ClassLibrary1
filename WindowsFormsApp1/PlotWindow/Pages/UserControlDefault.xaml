@@ -7,19 +7,42 @@
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="460">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <Border Margin="5" Grid.Column="0" Background="#FFC5C5C5" VerticalAlignment="Stretch" CornerRadius="12"/>
-        <Border Margin="5" Grid.Column="1" Background="#FF7C54A0" VerticalAlignment="Stretch" CornerRadius="12"/>
-        <Border Margin="5" Grid.Column="2" Background="#FF83CD80" VerticalAlignment="Stretch" CornerRadius="12"/>
-        <Border Margin="5" Grid.Column="3" Background="#FFEE9246" VerticalAlignment="Stretch" CornerRadius="12"/>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/> 
+            </Grid.RowDefinitions>
+            <Border  Margin="5" Grid.Column="0" Background="#FF696969" BorderBrush="#FFD3D3D3" VerticalAlignment="Stretch" CornerRadius="12" MouseUp="Border_MouseUp"/>
+            <Border Margin="5" Grid.Column="1" Background="#FF7C54A0" BorderBrush="#FFC89CF0"  VerticalAlignment="Stretch" CornerRadius="12"  MouseUp="Border_MouseUp"/>
+            <Border Margin="5" Grid.Column="2" Background="#FF2FB22A" BorderBrush="#FFB2E6B0"  VerticalAlignment="Stretch" CornerRadius="12"  MouseUp="Border_MouseUp"/>
+            <Border Margin="5" Grid.Column="3" Background="#FFEE9246" BorderBrush="#FFF5C39A"  VerticalAlignment="Stretch" CornerRadius="12"  MouseUp="Border_MouseUp"/>
+            <Border Margin="5" Grid.Column="4" Background="#FF4F35C3" BorderBrush="#FF5265E0"  VerticalAlignment="Stretch" CornerRadius="12"  MouseUp="Border_MouseUp"/>
+        </Grid> 
+        <Grid  Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions> 
+            <Border  Margin="5" Grid.Column="0" Background="#FFD3D3D3" VerticalAlignment="Stretch" CornerRadius="12"  />
+            <Border Margin="5" Grid.Column="1" Background="#FFC89CF0" VerticalAlignment="Stretch" CornerRadius="12" />
+            <Border Margin="5" Grid.Column="2" Background="#FFB2E6B0" VerticalAlignment="Stretch" CornerRadius="12"  />
+            <Border Margin="5" Grid.Column="3" Background="#FFF5C39A" VerticalAlignment="Stretch" CornerRadius="12"  />
+            <Border Margin="5" Grid.Column="4" Background="#FF5265E0" VerticalAlignment="Stretch" CornerRadius="12" />
+        </Grid>
     </Grid>
+    
 </UserControl>
